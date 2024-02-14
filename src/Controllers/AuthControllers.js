@@ -31,7 +31,7 @@ const registerUser = async (req, res) => {
         }
         const hashedPassword = await bcrypt.hash(password, 10)
         const newUser = await userSchema.create({
-            userName, name, email, phoneNumber, password: hashedPassword
+            userName, name, email, phoneNumber, password: hashedPassword, isVerified: true
         })
         if (newUser) {
             res.status(200).send({ message: userSuccessfullyRegistered })
