@@ -1,14 +1,16 @@
-const userSchema = require("../Models/userSchema");
 const bcrypt = require("bcrypt");
-
+const jwt = require("jsonwebtoken");
+const userSchema = require("../Models/userSchema");
 const {
     allFieldsAreMandatory,
     emailAlreadyRegistered,
     userSuccessfullyRegistered,
     somethingWentWrong,
     userNameAlreadyRegistered,
-    userIsNotRegisteredWithUs
+    userIsNotRegisteredWithUs,
+    emailOrPassIncorrect
 } = require("../Constants/en");
+
 
 const registerUser = async (req, res) => {
     try {
@@ -35,7 +37,7 @@ const registerUser = async (req, res) => {
             res.status(200).send({ message: userSuccessfullyRegistered })
         }
     } catch (error) {
-        res.status(500).end({ message: somethingWentWrong })
+        res.status(500).send({ message: somethingWentWrong })
     }
 }
 
@@ -51,8 +53,30 @@ const loginUser = async (req, res) => {
             res.status(404).send({ message: userIsNotRegisteredWithUs })
         }
 
+        if (findUser && (await bcrypt.compare(password, findUser.password))) {
+            const accessToken = jwt.sign(
+                {
+                    user: {
+                        username: findUser.userName,
+                        email: findUser.email,
+                        id: findUser._id
+                    }
+                },
+                process.env.ACCESS_TOKEN_SECRET
+            )
+
+            const getData = JSON.parse(JSON.stringify(findUser))
+            delete getData.password
+            getData.accessToken = accessToken
+
+            res.send({ data: getData, status: true })
+        } else {
+            res.status(401).send({ message: emailOrPassIncorrect })
+        }
+
+
     } catch (error) {
-        res.status(500).end({ message: "Something went wrong" })
+        res.status(500).end({ message: somethingWentWrong })
     }
 }
 
