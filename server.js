@@ -2,8 +2,10 @@ const express = require("express");
 const dotenv = require("dotenv");
 const handleRoutes = require("./src/Routes");
 const { BASE } = require("./src/Config/AllUrlsEndPoint");
+const ConnectDb = require("./src/Config/ConnectMongoDB");
 
 dotenv.config()
+ConnectDb()
 
 const PORT = process.env.PORT || 5001
 
