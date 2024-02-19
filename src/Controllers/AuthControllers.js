@@ -44,13 +44,12 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
-
         if (!email || !password) {
-            res.status(404).send({ message: allFieldsAreMandatory })
+            return res.status(404).send({ message: allFieldsAreMandatory });
         }
         const findUser = await userSchema.findOne({ email })
         if (!findUser) {
-            res.status(404).send({ message: userIsNotRegisteredWithUs })
+            return res.status(404).send({ message: userIsNotRegisteredWithUs })
         }
 
         if (findUser && (await bcrypt.compare(password, findUser.password))) {
@@ -59,22 +58,22 @@ const loginUser = async (req, res) => {
                     user: {
                         username: findUser.userName,
                         email: findUser.email,
-                        id: findUser._id
+                        id: findUser._id,
+                        phoneNumber: findUser.phoneNumber,
+                        name: findUser.name,
+                        profileImage: findUser.profileImage
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET
             )
-
             const getData = JSON.parse(JSON.stringify(findUser))
             delete getData.password
             getData.accessToken = accessToken
 
-            res.send({ data: getData, status: true })
+            return res.send({ data: getData, status: true })
         } else {
-            res.status(401).send({ message: emailOrPassIncorrect })
+            return res.status(401).send({ message: emailOrPassIncorrect })
         }
-
-
     } catch (error) {
         res.status(500).end({ message: somethingWentWrong })
     }
