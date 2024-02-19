@@ -7,6 +7,10 @@ const userSchema = mongoose.Schema(
             require: true,
             unique: true
         },
+        userType: {
+            type: String,
+            default: "user"
+        },
         name: {
             type: String,
             required: true
@@ -30,7 +34,7 @@ const userSchema = mongoose.Schema(
         }
     },
     {
-        timestamp: true
+        timestamps: true
     }
 )
 
