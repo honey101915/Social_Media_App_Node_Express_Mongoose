@@ -6,4 +6,5 @@ module.exports = {
     userSuccessfullyRegistered: "User is successfully registered.",
     userIsNotRegisteredWithUs: "User is not registered with us.",
     emailOrPassIncorrect: "Email or password is incorrect",
+    profileUpdatedSuccessfully: "profile updated successfully"
 }

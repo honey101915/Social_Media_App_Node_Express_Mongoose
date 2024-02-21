@@ -16,7 +16,7 @@ const registerUser = async (req, res) => {
     try {
         const { userName, name, email, password, phoneNumber } = req.body;
         if (!userName || !name || !email || !password || !phoneNumber) {
-            res.status(404).send({ message: allFieldsAreMandatory })
+            res.status(404).send({ statucCode: 404, message: allFieldsAreMandatory })
             return;
         }
         const findUserWithEmail = await userSchema.findOne({ email })
