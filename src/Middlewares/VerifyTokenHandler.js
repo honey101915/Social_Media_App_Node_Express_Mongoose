@@ -5,6 +5,7 @@ const validateToken = async (req, res, next) => {
         const authToken = req.headers.authorization || req.headers.Authorization
         if (authToken) {
             var token = authToken.split(" ")[1]
+
             jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
                 if (err) {
                     res.status(401).send({ message: "Unauthorized user" })

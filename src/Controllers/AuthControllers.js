@@ -30,14 +30,33 @@ const registerUser = async (req, res) => {
             return;
         }
         const hashedPassword = await bcrypt.hash(password, 10)
-        const newUser = await userSchema.create({
+
+        var newUserData = {
             userName, name, email, phoneNumber, password: hashedPassword, isVerified: true
+        }
+
+        if (req?.body?.latitude && req?.body?.longitude && req?.body?.city) {
+            newUserData = {
+                ...newUserData,
+                location: {
+                    latitude: req?.body?.latitude,
+                    longitude: req?.body?.longitude,
+                    city: req?.body?.city
+                }
+            }
+        }
+
+        console.log(newUserData, "newUserData");
+
+        const newUser = await userSchema.create({
+            // userName, name, email, phoneNumber, password: hashedPassword, isVerified: true
+            ...newUserData
         })
         if (newUser) {
             res.status(200).send({ message: userSuccessfullyRegistered })
         }
     } catch (error) {
-        res.status(500).send({ message: somethingWentWrong })
+        res.status(500).send({ error: error, message: somethingWentWrong })
     }
 }
 
@@ -69,6 +88,10 @@ const loginUser = async (req, res) => {
             const getData = JSON.parse(JSON.stringify(findUser))
             delete getData.password
             getData.accessToken = accessToken
+
+            await userSchema.findByIdAndUpdate(getData?._id, {
+                accessToken: accessToken
+            })
 
             return res.send({ data: getData, status: true })
         } else {

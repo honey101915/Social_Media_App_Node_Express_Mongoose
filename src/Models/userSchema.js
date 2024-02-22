@@ -31,10 +31,57 @@ const userSchema = new mongoose.Schema(
         password: {
             type: String,
             required: true
-        }
+        },
+        location: {
+            type: {
+                latitude: Number,
+                longitude: Number,
+                city: String
+            },
+            default: {
+                latitude: 40.7128,
+                longitude: -74.0060,
+                address: "New York, USA"
+            }
+        },
+        isVerified: {
+            type: Boolean,
+            default: true
+        },
+        fcmToken: {
+            type: String,
+            default: null
+        },
+        accessToken: {
+            type: String,
+            default: null
+        },
+        deviceType: {
+            type: String
+        },
+        about: {
+            type: String,
+            default: null
+        },
+        profession: {
+            type: String,
+            default: null
+        },
+        interests: {
+            type: Object,
+            default: null
+        },
+        dob: {
+            type: Date,
+            default: null
+        },
+        age: {
+            type: Number,
+            default: null
+        },
     },
     {
-        timestamps: true
+        timestamps: true, versionKey: false
     }
 )
 
