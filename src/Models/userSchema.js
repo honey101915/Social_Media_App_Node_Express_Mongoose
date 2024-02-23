@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        gender: {
+            type: String,
+            default: null
+        },
         email: {
             type: String,
             required: true,
@@ -69,7 +73,7 @@ const userSchema = new mongoose.Schema(
         },
         interests: {
             type: Object,
-            default: null
+            default: []
         },
         dob: {
             type: Date,

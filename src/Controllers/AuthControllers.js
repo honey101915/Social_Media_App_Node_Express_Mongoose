@@ -1,33 +1,23 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userSchema = require("../Models/userSchema");
-const {
-    allFieldsAreMandatory,
-    emailAlreadyRegistered,
-    userSuccessfullyRegistered,
-    somethingWentWrong,
-    userNameAlreadyRegistered,
-    userIsNotRegisteredWithUs,
-    emailOrPassIncorrect
-} = require("../Constants/en");
-
+const UniversalFunction = require("../lib/UniversalFunction")
+const CommonMessages = require("../Constants/en")
 
 const registerUser = async (req, res) => {
     try {
         const { userName, name, email, password, phoneNumber } = req.body;
         if (!userName || !name || !email || !password || !phoneNumber) {
-            res.status(404).send({ statucCode: 404, message: allFieldsAreMandatory })
+            UniversalFunction.SendResponse(res, 404, CommonMessages.allFieldsAreMandatory)
             return;
         }
         const findUserWithEmail = await userSchema.findOne({ email })
         if (findUserWithEmail) {
-            res.status(400).send({ message: emailAlreadyRegistered })
-            return;
+            return UniversalFunction.SendResponse(res, 400, CommonMessages.emailAlreadyRegistered)
         }
         const findUserWithUserName = await userSchema.findOne({ userName })
         if (findUserWithUserName) {
-            res.status(400).send({ message: userNameAlreadyRegistered })
-            return;
+            return UniversalFunction.SendResponse(res, 400, CommonMessages.userNameAlreadyRegistered)
         }
         const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -53,10 +43,10 @@ const registerUser = async (req, res) => {
             ...newUserData
         })
         if (newUser) {
-            res.status(200).send({ message: userSuccessfullyRegistered })
+            return UniversalFunction.SendResponse(res, 200, CommonMessages.userSuccessfullyRegistered)
         }
     } catch (error) {
-        res.status(500).send({ error: error, message: somethingWentWrong })
+        return UniversalFunction.SendServerError(res, error)
     }
 }
 
@@ -64,11 +54,11 @@ const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
-            return res.status(404).send({ message: allFieldsAreMandatory });
+            return UniversalFunction.SendResponse(res, 404, CommonMessages.allFieldsAreMandatory)
         }
         const findUser = await userSchema.findOne({ email })
         if (!findUser) {
-            return res.status(404).send({ message: userIsNotRegisteredWithUs })
+            return UniversalFunction.SendResponse(res, 404, CommonMessages.userIsNotRegisteredWithUs)
         }
 
         if (findUser && (await bcrypt.compare(password, findUser.password))) {
@@ -92,13 +82,12 @@ const loginUser = async (req, res) => {
             await userSchema.findByIdAndUpdate(getData?._id, {
                 accessToken: accessToken
             })
-
-            return res.send({ data: getData, status: true })
+            return UniversalFunction.SendResponse(res, 200, CommonMessages.success, getData)
         } else {
-            return res.status(401).send({ message: emailOrPassIncorrect })
+            return UniversalFunction.SendResponse(res, 401, CommonMessages.emailOrPassIncorrect)
         }
     } catch (error) {
-        res.status(500).end({ message: somethingWentWrong })
+        return UniversalFunction.SendServerError(res, error)
     }
 }
 

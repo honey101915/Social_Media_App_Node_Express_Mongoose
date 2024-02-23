@@ -1,5 +1,6 @@
 module.exports = {
-    somethingWentWrong: "Something went wrong.",
+    success: "Success",
+    somethingWentWrong: "Something went wrong. Internal server error",
     allFieldsAreMandatory: "All fields are mandatory.",
     emailAlreadyRegistered: "Email already registered.",
     userNameAlreadyRegistered: "Username already registered. Please choose different user name.",

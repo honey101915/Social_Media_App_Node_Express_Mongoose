@@ -8,5 +8,6 @@ module.exports = {
     UPDATE_PROFILE: "/update-profile",
     DELETE_PROFILE: "/delete-profile",
     GET_ALL_USERS: "/get-all-users",
-    LOGOUT: "/logout"
+    LOGOUT: "/logout",
+    ADD_INTERESTS: "/add-interests"
 }
