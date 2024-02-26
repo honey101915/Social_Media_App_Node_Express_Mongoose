@@ -1,5 +1,6 @@
-const express = require("express");
 const userSchema = require("../Models/userSchema");
+const interestSchema = require("../Models/interestSchema")
+
 const CommonMessages = require("../Constants/en")
 const UniversalFunction = require("../lib/UniversalFunction")
 
@@ -69,6 +70,9 @@ const addInterests = async (req, res) => {
         var currentUser = req.user
         const { interests } = req.body
         const findUser = await userSchema.findById(currentUser?.id)
+        if (!interests) {
+            return UniversalFunction.SendResponse(res, 404, "Interests is required")
+        }
         if (findUser) {
             await userSchema.findOneAndUpdate(findUser?._id, { interests: interests })
             const getUpdatedUser = await userSchema.findById(findUser?._id)

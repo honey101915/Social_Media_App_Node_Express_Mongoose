@@ -1,16 +1,25 @@
 const mongoose = require("mongoose")
 const { ObjectId } = mongoose.Schema.Types
 
-const textPostStatus = new mongoose.Schema(
+const postSchema = new mongoose.Schema(
     {
         userId: {
             type: ObjectId,
-            require: true,
             ref: "users"
         },
-        statusMessage: {
+        type: {
+            type: String,
+            default: "TEXT"
+        },
+        postData: {
             type: String,
             require: true,
+        },
+        allComments: {
+            type: Array,
+            default: [],
+            unique: true,
+            ref: "comments"
         },
         isDeleted: {
             type: Boolean,
@@ -21,17 +30,15 @@ const textPostStatus = new mongoose.Schema(
             default: false
         },
         totalLikes: {
-            type: Number,
-            default: null
+            type: Array,
+            ref: "users",
+            default: [],
+            unique: true,
         },
-        totalReports: {
-            type: Number,
-            default: null
-        }
     },
     {
         timestamps: true, versionKey: false
     }
 )
 
-module.exports = mongoose.model("textPostStatus", textPostStatus)
+module.exports = mongoose.model("posts", postSchema)

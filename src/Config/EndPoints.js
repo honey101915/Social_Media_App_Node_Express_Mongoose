@@ -2,12 +2,14 @@
 
 module.exports = {
     BASE: "/api",
-    AUTH: "/auth",
-    REGISTER_USER: "/register-user",
-    LOGIN: "/login",
+    REGISTER_USER: "/auth/register-user",
+    LOGIN: "/auth/login",
     UPDATE_PROFILE: "/update-profile",
     DELETE_PROFILE: "/delete-profile",
     GET_ALL_USERS: "/get-all-users",
     LOGOUT: "/logout",
-    ADD_INTERESTS: "/add-interests"
+    SELECT_INTERESTS: "/select-interests",
+    GET_ALL_INTERESTS: "/get-all-interests",
+    ADD_NEW_POST: "/add-new-post",
+    LIKE_POST: '/like-post'
 }

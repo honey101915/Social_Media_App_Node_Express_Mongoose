@@ -9,9 +9,9 @@ const SendResponse = async (res, statusCode, message = "Success", data = {},) =>
     }
 }
 
-const SendServerError = (res, error = {}) => {
+const SendServerError = (res, error = {}, message = "Server error") => {
     try {
-        return res.status(500).send({ statusCode: 500, error })
+        return res.status(500).send({ statusCode: 500, error, message })
     } catch (error) {
 
     }

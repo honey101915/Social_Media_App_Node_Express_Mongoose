@@ -20,9 +20,17 @@ const userSchema = new mongoose.Schema(
             default: null
         },
         email: {
-            type: String,
-            required: true,
-            unique: true
+            type: String, // Field type is String
+            unique: true, // Field must be unique
+            lowercase: true, // Convert value to lowercase
+            trim: true, // Trim whitespace from value
+            validate: {
+                validator: (value) => {
+                    // Custom validation logic for email format
+                    return /\S+@\S+\.\S+/.test(value);
+                },
+                message: 'Invalid email format',
+            },
         },
         profileImage: {
             type: String,
@@ -72,8 +80,9 @@ const userSchema = new mongoose.Schema(
             default: null
         },
         interests: {
-            type: Object,
-            default: []
+            type: Array,
+            default: [],
+            ref: "interests"
         },
         dob: {
             type: Date,

@@ -36,7 +36,7 @@ const registerUser = async (req, res) => {
             }
         }
 
-        console.log(newUserData, "newUserData");
+        // console.log(newUserData, "newUserData");
 
         const newUser = await userSchema.create({
             // userName, name, email, phoneNumber, password: hashedPassword, isVerified: true
@@ -56,7 +56,7 @@ const loginUser = async (req, res) => {
         if (!email || !password) {
             return UniversalFunction.SendResponse(res, 404, CommonMessages.allFieldsAreMandatory)
         }
-        const findUser = await userSchema.findOne({ email })
+        const findUser = await userSchema.findOne({ email }).populate({ path: "interests" })
         if (!findUser) {
             return UniversalFunction.SendResponse(res, 404, CommonMessages.userIsNotRegisteredWithUs)
         }
