@@ -1,11 +1,13 @@
 const userSchema = require("./../Models/userSchema")
+const UniversalFunction = require("../lib/UniversalFunction")
 
 const getAllUsers = async (req, res) => {
-    // console.log(req.user, "reqreqreqreqreqreqreq");
-    const getAllUsers = await userSchema.find({});
-    console.log(getAllUsers, "XXXXXXXXXXXX")
-
-    res.status(200).send({ data: getAllUsers, message: "Success" })
+    try {
+        const getAllUsers = await userSchema.find({});
+        return UniversalFunction.SendResponse(res, 200, "Success", getAllUsers)
+    } catch (error) {
+        return UniversalFunction.SendServerError(res, error)
+    }
 }
 
 module.exports = { getAllUsers };

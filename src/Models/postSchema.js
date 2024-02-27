@@ -18,8 +18,7 @@ const postSchema = new mongoose.Schema(
         allComments: {
             type: Array,
             default: [],
-            unique: true,
-            ref: "comments"
+            // ref: "comments"
         },
         isDeleted: {
             type: Boolean,
@@ -33,7 +32,6 @@ const postSchema = new mongoose.Schema(
             type: Array,
             ref: "users",
             default: [],
-            unique: true,
         },
     },
     {
