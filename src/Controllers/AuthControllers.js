@@ -61,16 +61,16 @@ const loginUser = async (req, res) => {
             return UniversalFunction.SendResponse(res, 404, CommonMessages.userIsNotRegisteredWithUs)
         }
 
-        if (findUser && (await bcrypt.compare(password, findUser.password))) {
+        if (findUser && (await bcrypt.compare(password, findUser?.password))) {
             const accessToken = jwt.sign(
                 {
                     user: {
-                        username: findUser.userName,
-                        email: findUser.email,
-                        id: findUser._id,
-                        phoneNumber: findUser.phoneNumber,
-                        name: findUser.name,
-                        profileImage: findUser.profileImage
+                        username: findUser?.userName,
+                        email: findUser?.email,
+                        id: findUser?._id,
+                        phoneNumber: findUser?.phoneNumber,
+                        name: findUser?.name,
+                        profileImage: findUser?.profileImage
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET
