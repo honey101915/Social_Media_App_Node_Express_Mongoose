@@ -29,32 +29,10 @@ app.listen(PORT, () => {
     console.log("Server is runnig on PORT => " + PORT)
 })
 
-app.get("/get", (req, res) => {
-    res.status(200).send({ data: [] })
-})
+// app.get("/get", (req, res) => {
+//     res.status(200).send({ data: [] })
+// })
 
 // Swagger setup
 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-
-// var swaggerOptions = {
-//     definition: {
-//         openapi: "3.0.0",
-//         info: {
-//             title: "Node JS",
-//             version: "1.0.0",
-//             description: "This is Node JS APIs."
-//         },
-//         servers: [
-//             {
-//                 url: "http://localhost:8080/api/"
-//             }
-//         ]
-//     },
-//     apis: ["./src/Routes/*.js"]
-// };
-
-// const swaggerSpec = swaggerJsdoc(swaggerOptions)
-
-// app.use('/api/documentation', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
