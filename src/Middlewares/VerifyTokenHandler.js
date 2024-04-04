@@ -2,7 +2,8 @@ const jwt = require("jsonwebtoken")
 
 const validateToken = async (req, res, next) => {
     try {
-        const authToken = req.headers.authorization || req.headers.Authorization
+        // const authToken = req.headers.authorization || req.headers.Authorization
+        const authToken = req.headers.authorization
         if (authToken) {
             var token = authToken.split(" ")[1]
 

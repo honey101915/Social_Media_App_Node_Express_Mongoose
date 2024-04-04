@@ -1,4 +1,7 @@
-const userSchema = require("../Models/userSchema");
+
+
+const userSchema = require("../Models/userSchema")
+const mediaFileSchema = require("../Models/mediaFileSchema")
 const interestSchema = require("../Models/interestSchema")
 
 const CommonMessages = require("../Constants/en")
@@ -85,10 +88,45 @@ const addInterests = async (req, res) => {
     }
 }
 
+const uploadProfilePic = async (req, res) => {
+    try {
+        console.log(req.file, "ssssss")
+        console.log(req.protocol, "protocol")
+        console.log(req.get('host'), "req.get('host')")
+        var currentUser = req.user
+
+        var findUser = await userSchema.findById(currentUser?.id)
+        const fileUrl = `${req.protocol}://${req.get('host')}/${req.file.path}`;
+        findUser.profileImage = fileUrl
+
+        const updatedUser = await userSchema.findByIdAndUpdate(
+            currentUser?.id,
+            findUser,
+            { new: true }
+        )
+
+        let mediaData = {
+            userId: currentUser?.id,
+            type: "image",
+            fileName: req.file.filename,
+            path: req.file.path,
+            url: fileUrl
+        }
+
+        const newPost = await mediaFileSchema.create(mediaData)
+
+        return UniversalFunction.SendResponse(res, 200, "", updatedUser)
+
+    } catch (error) {
+        console.log(error, "errorerror");
+        return UniversalFunction.SendServerError(res, error)
+    }
+}
 
 module.exports = {
     updateProfile,
     deleteProfile,
     logout,
-    addInterests
+    addInterests,
+    uploadProfilePic
 }
