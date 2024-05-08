@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema(
             default: null
         },
         email: {
+            default: "",
             type: String, // Field type is String
             unique: true, // Field must be unique
             lowercase: true, // Convert value to lowercase
