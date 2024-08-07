@@ -51,12 +51,15 @@ const registerUser = async (req, res) => {
 }
 
 const loginUser = async (req, res) => {
+    console.log(req.body, "XXXX");
+
     try {
         const { email, password } = req.body;
         if (!email || !password) {
             return UniversalFunction.SendResponse(res, 404, CommonMessages.allFieldsAreMandatory)
         }
-        const findUser = await userSchema.findOne({ email }).populate({ path: "interests" })
+        // const findUser = await userSchema.findOne({ email }).populate({ path: "interests" })
+        const findUser = await userSchema.findOne({ email })
         if (!findUser) {
             return UniversalFunction.SendResponse(res, 404, CommonMessages.userIsNotRegisteredWithUs)
         }
@@ -87,6 +90,8 @@ const loginUser = async (req, res) => {
             return UniversalFunction.SendResponse(res, 401, CommonMessages.emailOrPassIncorrect)
         }
     } catch (error) {
+        console.log(error, "errorerrorerror");
+
         return UniversalFunction.SendServerError(res, error)
     }
 }

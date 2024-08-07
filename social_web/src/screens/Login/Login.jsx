@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { Link } from "react-router-dom";
+import { loginApi } from "../../redux/reduxActions/authActions";
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -11,7 +12,11 @@ const Login = () => {
         console.log("email : ", email)
         console.log("password : ", password)
 
-
+        loginApi().then((res) => {
+            console.log(res, "resresres");
+        }).catch((error) => {
+            console.log(error, "errorerrorerror");
+        })
     }
 
     return (
