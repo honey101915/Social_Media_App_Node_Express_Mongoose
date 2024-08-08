@@ -30,10 +30,13 @@ export function setItem(key: any, data: any) {
 
 export function getItem(key: any) {
     return new Promise((resolve, reject) => {
-        localStorage.getItem(key).then((data: any) => {
-            resolve(JSON.parse(data))
-        })
-    })
+        const data = localStorage.getItem(key);
+        if (data !== null) {
+            resolve(JSON.parse(data));
+        } else {
+            reject(null);
+        }
+    });
 }
 
 export function removeItem(key: any) {
@@ -46,10 +49,13 @@ export function clearAsyncStorate(key: any) {
 
 export async function getUserData() {
     return new Promise((resolve, reject) => {
-        localStorage.getItem('userData').then((data: any) => {
-            resolve(JSON.parse(data))
-        })
-    })
+        const data = localStorage.getItem('userData');
+        if (data !== null) {
+            resolve(JSON.parse(data));
+        } else {
+            reject(null);
+        }
+    });
 }
 
 export async function clearUserData() {

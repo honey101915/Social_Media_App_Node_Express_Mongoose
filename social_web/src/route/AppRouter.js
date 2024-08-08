@@ -4,20 +4,18 @@ import React from 'react';
 import Login from '../screens/Login/Login';
 import Register from '../screens/Register/Register';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import AuthRoute from './AuthRoute';
+import MainRoute from './MainRoute';
 
 const AppRouter = () => {
-    const route = createBrowserRouter([
-        {
-            path: "/",
-            element: <Login />,
-        },
-        {
-            path: "/register",
-            element: <Register />,
-        }
-    ]);
+    const userData = useSelector((state) => state?.authReducers?.userData || {})
+    console.log(userData, "userDatauserDatauserData");
+
+    const router = userData?.accessToken ? MainRoute() : AuthRoute();
+
     return (
-        <RouterProvider router={route}></RouterProvider>
+        <RouterProvider router={router} />
     );
 };
 

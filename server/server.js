@@ -3,6 +3,8 @@ dotenv.config()
 
 const express = require("express");
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger-output.json');
@@ -21,6 +23,9 @@ const app = express();
 // app.use(express.urlencoded({ extended: true }))
 
 // Middleware to parse JSON and form-urlencoded data
+// Use CORS middleware
+
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // It helps to parse the Form data.  
 

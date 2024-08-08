@@ -6,12 +6,32 @@ const CommonMessages = require("../Constants/en")
 
 const registerUser = async (req, res) => {
     try {
-        const { userName, name, email, password, phoneNumber } = req.body;
-        if (!userName || !name || !email || !password || !phoneNumber) {
-            UniversalFunction.SendResponse(res, 404, CommonMessages.allFieldsAreMandatory)
+
+        var userName = String(req.body?.userName || "").toLocaleLowerCase();
+        var name = String(req.body?.name || "");
+        var email = String(req.body?.email || "").toLocaleLowerCase();
+        var password = String(req.body?.password || "");
+        var phoneNumber = String(req.body?.phoneNumber || "");
+
+        if (userName.trim() === '') {
+            UniversalFunction.SendResponse(res, 404, "Username is required")
+            return;
+        } else if (name.trim() === '') {
+            UniversalFunction.SendResponse(res, 404, "Name is required")
+            return;
+        } else if (email.trim() === '') {
+            UniversalFunction.SendResponse(res, 404, "Email is required")
+            return;
+        } else if (password.trim() === '' || password.trim().length < 6) {
+            UniversalFunction.SendResponse(res, 404, "Password is required of 6 digits")
+            return;
+        } else if (phoneNumber.trim() === '') {
+            UniversalFunction.SendResponse(res, 404, "Phone number is required")
             return;
         }
+
         const findUserWithEmail = await userSchema.findOne({ email })
+
         if (findUserWithEmail) {
             return UniversalFunction.SendResponse(res, 400, CommonMessages.emailAlreadyRegistered)
         }
@@ -20,6 +40,8 @@ const registerUser = async (req, res) => {
             return UniversalFunction.SendResponse(res, 400, CommonMessages.userNameAlreadyRegistered)
         }
         const hashedPassword = await bcrypt.hash(password, 10)
+        console.log(hashedPassword, "hashedPassword");
+
 
         var newUserData = {
             userName, name, email, phoneNumber, password: hashedPassword, isVerified: true
@@ -54,10 +76,21 @@ const loginUser = async (req, res) => {
     console.log(req.body, "XXXX");
 
     try {
-        const { email, password } = req.body;
-        if (!email || !password) {
-            return UniversalFunction.SendResponse(res, 404, CommonMessages.allFieldsAreMandatory)
+        var email = String(req.body?.email || "");
+        var password = String(req.body?.password || "");
+
+        if (email.trim() === '') {
+            UniversalFunction.SendResponse(res, 404, "Email is required")
+            return;
+        } else if (password.trim() === '' || password.trim().length < 6) {
+            UniversalFunction.SendResponse(res, 404, "Password is required of 6 digits")
+            return;
         }
+
+        // const { email, password } = req.body;
+        // if (!email || !password) {
+        //     return UniversalFunction.SendResponse(res, 404, CommonMessages.allFieldsAreMandatory)
+        // }
         // const findUser = await userSchema.findOne({ email }).populate({ path: "interests" })
         const findUser = await userSchema.findOne({ email })
         if (!findUser) {
@@ -91,7 +124,6 @@ const loginUser = async (req, res) => {
         }
     } catch (error) {
         console.log(error, "errorerrorerror");
-
         return UniversalFunction.SendServerError(res, error)
     }
 }
