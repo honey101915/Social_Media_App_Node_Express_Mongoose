@@ -1,50 +1,111 @@
 import React from 'react';
-import './Profile.css';
+import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
+import { FaEdit } from 'react-icons/fa'; // Import the icon from react-icons
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Profile.css'; // Import custom CSS file
+import { useNavigate } from 'react-router-dom';
+import { Header } from '../../components';
 
-const ProfileScreen = () => {
-    // Dummy data for the user profile
-    const user = {
-        username: 'john_doe',
-        userType: 'Admin',
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        phone: '+1-123-456-7890',
-        profileImage: 'https://via.placeholder.com/150',
-        about: 'Passionate developer with a love for coding and technology.',
-        profession: 'Software Engineer',
-        interests: ['Coding', 'Music', 'Traveling', 'Photography'],
-        dob: '1990-01-01',
-        age: 34,
+const Profile = () => {
+    const navigate = useNavigate();
+    const _moveToEditScreen = () => {
+        navigate("/editProfile");
     };
 
     return (
-        <div className="profile-container">
-            <div className="profile-header">
-                <img src={user.profileImage} alt="Profile" className="profile-image" />
-                <div className="profile-info">
-                    <h2>{user.name}</h2>
-                    <p className="username">@{user.username}</p>
-                    <p className="usertype">{user.userType}</p>
-                </div>
-            </div>
-            <div className="profile-details">
-                <h3>Profile Details</h3>
-                <div className="details-row">
-                    <div className="details-col">
-                        <p><strong>Email:</strong> {user.email}</p>
-                        <p><strong>Phone:</strong> {user.phone}</p>
-                        <p><strong>Date of Birth:</strong> {user.dob}</p>
-                        <p><strong>Age:</strong> {user.age}</p>
-                    </div>
-                    <div className="details-col">
-                        <p><strong>Profession:</strong> {user.profession}</p>
-                        <p><strong>Interests:</strong> {user.interests.join(', ')}</p>
-                        <p><strong>About:</strong> {user.about}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <Container fluid className="profile-page">
+            <Header title="Profile" />
+            <Row className="justify-content-center">
+                <Col md={10}>
+                    <Card className="profile-card">
+                        <Card.Header className="text-center position-relative">
+                            <img
+                                src="https://via.placeholder.com/150"
+                                alt="Profile"
+                                className="profile-img"
+                            />
+                            <Card.Title className="mt-3">John Doe</Card.Title>
+                            <Card.Subtitle className="mb-2 text-muted">Username: johndoe</Card.Subtitle>
+                            <Card.Subtitle className="mb-2 text-muted">User Type: Premium</Card.Subtitle>
+                            <Button variant="primary" className="edit-button"
+                                onClick={_moveToEditScreen}
+                            >
+                                <FaEdit /> Edit Profile
+                            </Button>
+                        </Card.Header>
+                        <Card.Body className="profile-details">
+                            <Form>
+                                <Form.Group as={Row} controlId="formName" className="mb-4">
+                                    <Form.Label column sm={3}>Name:</Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control type="text" value="John Doe" readOnly />
+                                    </Col>
+                                </Form.Group>
+
+                                <Form.Group as={Row} controlId="formEmail" className="mb-4">
+                                    <Form.Label column sm={3}>Email:</Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control type="email" value="john.doe@example.com" readOnly />
+                                    </Col>
+                                </Form.Group>
+
+                                <Form.Group as={Row} controlId="formPhone" className="mb-4">
+                                    <Form.Label column sm={3}>Phone Number:</Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control type="text" value="+1234567890" readOnly />
+                                    </Col>
+                                </Form.Group>
+
+                                <Form.Group as={Row} controlId="formDob" className="mb-4">
+                                    <Form.Label column sm={3}>Date of Birth:</Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control type="date" value="1990-01-01" readOnly />
+                                    </Col>
+                                </Form.Group>
+
+                                <Form.Group as={Row} controlId="formAge" className="mb-4">
+                                    <Form.Label column sm={3}>Age:</Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control type="text" value="34" readOnly />
+                                    </Col>
+                                </Form.Group>
+
+                                <Form.Group as={Row} controlId="formGender" className="mb-4">
+                                    <Form.Label column sm={3}>Gender:</Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control type="text" value="Male" readOnly />
+                                    </Col>
+                                </Form.Group>
+
+                                <Form.Group as={Row} controlId="formProfession" className="mb-4">
+                                    <Form.Label column sm={3}>Profession:</Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control type="text" value="Software Engineer" readOnly />
+                                    </Col>
+                                </Form.Group>
+
+                                <Form.Group as={Row} controlId="formInterests" className="mb-4">
+                                    <Form.Label column sm={3}>Interests:</Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control type="text" value="Coding, Reading, Traveling" readOnly />
+                                    </Col>
+                                </Form.Group>
+
+                                <Form.Group as={Row} controlId="formAbout" className="mb-4">
+                                    <Form.Label column sm={3}>About:</Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control as="textarea" rows={3} value="Lorem ipsum dolor sit amet, consectetur adipiscing elit." readOnly />
+                                    </Col>
+                                </Form.Group>
+
+                                <Button variant="danger" className="logout-button">Logout</Button>
+                            </Form>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 
-export default ProfileScreen;
+export default Profile;

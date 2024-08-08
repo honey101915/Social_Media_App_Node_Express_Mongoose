@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginApi } from "../../redux/reduxActions/authActions";
 import { notifySuccess, notifyError, notifyInfo } from "../../utils/ToastConfig";
 import { Loader } from "../../components";
@@ -13,10 +13,11 @@ import { ApiError, ApiSuccessResponse } from "../../utils/helperFunctions";
 
 
 const Login = () => {
+    const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('ritika@gmail.com');
+    const [password, setPassword] = useState('123456');
 
 
     const _checkValidations = (e) => {
@@ -29,15 +30,12 @@ const Login = () => {
             return;
         } else {
             setLoading(true)
-            _handleOnSubmit()
+            _handleOnSubmit(e)
         }
     }
 
-    const _handleOnSubmit = () => {
-
-        console.log("email : ", email)
-        console.log("password : ", password)
-
+    const _handleOnSubmit = (e) => {
+        e.preventDefault();
         let _apiData = {
             email: String(email).trim(),
             password: String(password).trim()
@@ -47,11 +45,14 @@ const Login = () => {
             console.log(res, "resresres");
             setLoading(false)
             notifySuccess(ApiSuccessResponse(res))
+            _moveToProfile()
         }).catch((error) => {
             notifyError(ApiError(error))
             setLoading(false)
         })
     }
+
+    const _moveToProfile = () => navigate('/profile');
 
     return (
         <div className="addUser">
@@ -79,14 +80,14 @@ const Login = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" className="btn btn-primary">
                         Login
                     </button>
                 </div>
             </form>
             <div className="login">
                 <p>Don't have Account? </p>
-                <Link to="/register" type="submit" class="btn btn-success">
+                <Link to="/register" type="submit" className="btn btn-success">
                     Sign Up
                 </Link>
             </div>

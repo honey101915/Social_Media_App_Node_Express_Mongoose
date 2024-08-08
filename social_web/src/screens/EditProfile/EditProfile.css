@@ -1,0 +1,23 @@
+/* EditProfile.css */
+
+.edit-profile-page {
+  min-height: 100vh; /* Ensures the container takes up at least the full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centers content vertically */
+  padding: 20px;
+}
+
+.profile-card {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem; /* Adds margin bottom for spacing between fields */
+}
+
+.mt-3 {
+  margin-top: 1rem; /* Adds margin top for spacing between button and fields */
+}
