@@ -1,15 +1,26 @@
-import React from 'react';
-import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
-import { FaEdit } from 'react-icons/fa'; // Import the icon from react-icons
+import React, { useState } from 'react';
+import { Container, Row, Col, Card, Button, Form, Modal } from 'react-bootstrap';
+import { FaEdit } from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Profile.css'; // Import custom CSS file
+import './Profile.css';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../../components';
 
 const Profile = () => {
     const navigate = useNavigate();
+    const [showLogoutModal, setShowLogoutModal] = useState(false);
+
     const _moveToEditScreen = () => {
         navigate("/editProfile");
+    };
+
+    const handleLogout = () => {
+        console.log('Logged out');
+        navigate('/login');
+    };
+
+    const toggleLogoutModal = () => {
+        setShowLogoutModal(!showLogoutModal);
     };
 
     return (
@@ -27,7 +38,9 @@ const Profile = () => {
                             <Card.Title className="mt-3">John Doe</Card.Title>
                             <Card.Subtitle className="mb-2 text-muted">Username: johndoe</Card.Subtitle>
                             <Card.Subtitle className="mb-2 text-muted">User Type: Premium</Card.Subtitle>
-                            <Button variant="primary" className="edit-button"
+                            <Button
+                                variant="primary"
+                                className="edit-button"
                                 onClick={_moveToEditScreen}
                             >
                                 <FaEdit /> Edit Profile
@@ -98,12 +111,36 @@ const Profile = () => {
                                     </Col>
                                 </Form.Group>
 
-                                <Button variant="danger" className="logout-button">Logout</Button>
+                                <Button
+                                    variant="danger"
+                                    className="logout-button"
+                                    onClick={toggleLogoutModal}
+                                >
+                                    Logout
+                                </Button>
                             </Form>
                         </Card.Body>
                     </Card>
                 </Col>
             </Row>
+
+            {/* Logout Confirmation Modal */}
+            <Modal show={showLogoutModal} onHide={toggleLogoutModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Logout</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Are you sure you want to logout?</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={toggleLogoutModal}>
+                        No
+                    </Button>
+                    <Button variant="danger" onClick={handleLogout}>
+                        Yes, Logout
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </Container>
     );
 };

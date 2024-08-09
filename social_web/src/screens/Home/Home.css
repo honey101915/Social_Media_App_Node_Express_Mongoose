@@ -1,0 +1,33 @@
+.home-page {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: none;
+}
+
+.card-img-top {
+    border-radius: 0;
+}
+
+.post-actions {
+    font-size: 1.5rem;
+}
+
+.post-actions button {
+    color: #495057;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.post-actions button:hover {
+    color: #007bff;
+}

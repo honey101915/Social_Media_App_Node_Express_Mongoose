@@ -52,7 +52,7 @@ const Login = () => {
         })
     }
 
-    const _moveToProfile = () => navigate('/profile');
+    const _moveToProfile = () => navigate('/home');
 
     return (
         <div className="addUser">

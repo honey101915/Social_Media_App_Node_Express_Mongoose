@@ -25,6 +25,10 @@ const APP_ROUTES = [
     {
         path: "/editProfile",
         element: <ScreenName.EditProfile />,
+    },
+    {
+        path: "/home",
+        element: <ScreenName.Home />,
     }
 ];
 
