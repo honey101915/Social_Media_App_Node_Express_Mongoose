@@ -40,7 +40,7 @@ const registerUser = async (req, res) => {
             return UniversalFunction.SendResponse(res, 400, CommonMessages.userNameAlreadyRegistered)
         }
         const hashedPassword = await bcrypt.hash(password, 10)
-        console.log(hashedPassword, "hashedPassword");
+        // console.log(hashedPassword, "hashedPassword");
 
 
         var newUserData = {

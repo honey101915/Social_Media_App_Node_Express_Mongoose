@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Profile.css';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../../components';
+// import { Header } from '../../components';
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Profile = () => {
 
     return (
         <Container fluid className="profile-page">
-            <Header title="Profile" />
+            <Header title={"Profile"} />
             <Row className="justify-content-center">
                 <Col md={10}>
                     <Card className="profile-card">

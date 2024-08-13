@@ -3,6 +3,7 @@
 import { useSelector } from 'react-redux';
 import { BrowserRouter, createBrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import * as ScreenName from '../screens';
+import { HomeHeader } from '../components';
 
 
 const APP_ROUTES = [
@@ -19,6 +20,10 @@ const APP_ROUTES = [
         element: <ScreenName.Register />,
     },
     {
+        path: "/home",
+        element: <ScreenName.Home />,
+    },
+    {
         path: "/profile",
         element: <ScreenName.Profile />,
     },
@@ -27,11 +32,22 @@ const APP_ROUTES = [
         element: <ScreenName.EditProfile />,
     },
     {
-        path: "/home",
-        element: <ScreenName.Home />,
-    }
+        path: "/aboutUs",
+        element: <ScreenName.AboutUs />,
+    },
+    {
+        path: "/messages",
+        element: <ScreenName.Messages />,
+    },
+    {
+        path: "/notifications",
+        element: <ScreenName.Notifications />,
+    },
+    {
+        path: "/settings",
+        element: <ScreenName.Settings />,
+    },
 ];
-
 
 export const route = createBrowserRouter(APP_ROUTES)
 
@@ -41,6 +57,7 @@ const AppRouter = () => {
 
     return (
         <BrowserRouter>
+            {userData?.accessToken && <HomeHeader />}
             <Routes>
                 {APP_ROUTES.map((route, index) => {
                     return (

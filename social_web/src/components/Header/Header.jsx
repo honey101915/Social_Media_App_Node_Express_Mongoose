@@ -10,9 +10,6 @@ const Header = ({ title }) => {
 
     return (
         <header className="header">
-            <Button variant="light" className="back-button" onClick={() => navigate(-1)}>
-                <FaArrowLeft />
-            </Button>
             <h1 className="header-title">{title}</h1>
         </header>
     );

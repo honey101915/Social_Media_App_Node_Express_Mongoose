@@ -1,22 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
-import { loginApi } from "../../redux/reduxActions/authActions";
-import { notifySuccess, notifyError, notifyInfo } from "../../utils/ToastConfig";
 import { Loader } from "../../components";
+import { loginApi } from "../../redux/reduxActions/authActions";
+import { notifyError, notifySuccess } from "../../utils/ToastConfig";
 
+import "../../App.css";
 import "../../components/Loader/Loader.css";
-import "./Login.css";
-import "../../App.css"
-import { checkDataEmptyOrNot, checkIsEmpty, checkPasswordValidations, isValidEmail } from "../../utils/validations";
 import { ApiError, ApiSuccessResponse } from "../../utils/helperFunctions";
+import { checkPasswordValidations, isValidEmail } from "../../utils/validations";
+import "./Login.css";
 
 
 const Login = () => {
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
-    const [email, setEmail] = useState('ritika@gmail.com');
+    const [email, setEmail] = useState('honey@gmail.com');
     const [password, setPassword] = useState('123456');
 
 
@@ -88,7 +88,7 @@ const Login = () => {
             <div className="login">
                 <p>Don't have Account? </p>
                 <Link to="/register" type="submit" className="btn btn-success">
-                    Sign Up
+                    Register
                 </Link>
             </div>
             {loading ? <Loader /> : <></>}

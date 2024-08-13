@@ -3,20 +3,21 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { FaHeart, FaComment, FaShare, FaBookmark } from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css';
+import { Header } from '../../components';
 
 const posts = [
     {
         id: 1,
         username: 'johndoe',
         userImage: 'https://via.placeholder.com/50',
-        postImage: 'https://via.placeholder.com/500',
+        postImage: 'https://wallpapers.com/images/featured/new-york-city-5oaa14h4mw6w3o71.jpg',
         caption: 'Enjoying the beautiful sunset!',
     },
     {
         id: 2,
         username: 'janedoe',
         userImage: 'https://via.placeholder.com/50',
-        postImage: 'https://via.placeholder.com/500',
+        postImage: 'https://wallpapers.com/images/featured/new-york-city-5oaa14h4mw6w3o71.jpg',
         caption: 'Great time hiking with friends.',
     },
     // Add more posts as needed
@@ -25,6 +26,7 @@ const posts = [
 const Home = () => {
     return (
         <Container fluid className="home-page">
+            <Header title={"Home"} />
             <Row className="justify-content-center">
                 <Col md={6}>
                     {posts.map(post => (

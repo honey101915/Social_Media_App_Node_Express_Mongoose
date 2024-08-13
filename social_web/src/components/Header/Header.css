@@ -1,26 +1,20 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: center; /* Center the title */
+  justify-content: center;
+  /* Center the content horizontally */
   padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border-bottom: 1px solid #ddd;
-  position: relative; /* Make sure the back button is positioned correctly */
-}
-
-.back-button {
-  position: absolute;
-  left: 20px; /* Adjust spacing from the left */
-  background: transparent;
-  border: none;
-  color: #fff;
-  font-size: 20px;
+  background-color: #f8f9fa;
+  /* Light background color */
+  /* Remove border-bottom property */
 }
 
 .header-title {
-  margin: 0;
   font-size: 1.5rem;
-  text-align: center; /* Ensure text is centered within the header */
-  flex: 1; /* Allows title to take up available space */
+  font-weight: bold;
+  text-align: center;
+  /* Center the text */
+  flex-grow: 1;
+  /* Allow the title to take up available space */
+  margin: 0;
 }

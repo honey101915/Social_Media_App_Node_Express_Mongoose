@@ -1,50 +1,133 @@
-.addUser {
-    background-color: white;
-    width: 25%;
-    margin: 50px auto;
-    /* margin in top and bottom will be 50px  */
-    /* left and right auto  */
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.065);
+/* Register.css */
 
-    /* horizon offset vertical offset blur offset  */
-    /* opacity of shadow */
-    /* red, green, blue, and (opacity ). */
+.register-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem 3rem;
+    background-color: #fefefe;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.addUserForm .inputGroup {
-    width: 100%;
+h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.register-form {
     display: flex;
     flex-direction: column;
+    gap: 1.5rem;
 }
 
-.addUserForm .inputGroup label {
-    margin-top: 10px;
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.addUserForm .inputGroup input {
-    margin-top: 5px;
-    padding: 10px;
+label {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
 }
 
-.inputGroup button {
-    margin-top: 10px;
+input,
+select,
+textarea {
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.interests-fieldset {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    /* margin-top: 1rem; */
+}
+
+.interests-fieldset legend {
+    font-weight: bold;
+    color: #333;
+    padding: 0 0.5rem;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #ddd;
+}
+
+.interests-fieldset label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    color: #555;
+    cursor: pointer;
+}
+
+.interests-fieldset input[type="checkbox"] {
+    margin-right: 0.75rem;
+    accent-color: #007bff;
+}
+
+.interests-fieldset .checkbox-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success {
+    background-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-primary {
+    background-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
 }
 
 .login {
-    margin-top: 30px;
     text-align: center;
+    margin-top: 1.5rem;
 }
 
-.login .btn.btn-primary {
-    width: 50%;
-}
-
-.addUser h3 {
-    text-align: center;
-    font-weight: bold;
-    color: darkcyan;
-    text-transform: uppercase;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+.login p {
+    margin-bottom: 0.5rem;
+    color: #555;
 }

@@ -1,0 +1,20 @@
+.notifications-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #ffffff;
+    width: calc(100vw - 100px);
+    /* White background */
+    color: #333;
+    /* Dark text color for better contrast */
+    padding: 20px;
+}
+
+.notifications-container h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333;
+    /* Dark text color */
+}

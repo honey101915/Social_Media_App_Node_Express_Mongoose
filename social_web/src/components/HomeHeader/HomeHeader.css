@@ -1,0 +1,133 @@
+/* HomeHeader.css */
+
+.header-nav {
+    background: linear-gradient(90deg, #7fa8f4, #2a5298);
+    /* Gradient background */
+    padding: 1rem 2rem;
+    /* Adequate padding */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    /* Strong shadow for depth */
+    position: sticky;
+    /* Sticky header */
+    top: 0;
+    /* Stick to top */
+    z-index: 1000;
+    /* Ensure it’s on top of other content */
+    display: flex;
+    /* Flex layout for alignment */
+    align-items: center;
+    /* Center items vertically */
+    border-bottom: 2px solid #ffcc00;
+    /* Bottom border */
+}
+
+.header-icon {
+    width: 80px;
+    /* Set icon size */
+    height: 80px;
+    /* Set icon size */
+    margin-right: 2rem;
+    /* Space between icon and links */
+}
+
+.header-icon img {
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    border-radius: 50%;
+    /* Circular icon */
+    object-fit: cover;
+    /* Ensure it covers the area */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Add shadow to the icon */
+    transition: transform 0.3s ease;
+    /* Smooth hover effect */
+}
+
+.header-icon img:hover {
+    transform: scale(1.1);
+    /* Slight zoom on hover */
+}
+
+.header-list {
+    list-style: none;
+    /* Remove bullets */
+    display: flex;
+    /* Horizontal layout */
+    gap: 2rem;
+    /* Space between items */
+    margin: 0;
+    /* Remove default margin */
+    padding: 0;
+    /* Remove default padding */
+    flex-grow: 1;
+    /* Allow links to take up remaining space */
+}
+
+.header-item {
+    margin: 0;
+    /* No margin */
+}
+
+.header-link {
+    color: #fff;
+    /* White text */
+    text-decoration: none;
+    /* Remove underline */
+    font-size: 1.2rem;
+    /* Larger text */
+    font-weight: 600;
+    /* Bold text */
+    padding: 0.7rem 1.5rem;
+    /* Adequate padding */
+    border-radius: 50px;
+    /* Rounded links */
+    transition: all 0.3s ease;
+    /* Smooth transition */
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Light overlay background */
+}
+
+.header-link:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    /* Lighter overlay on hover */
+    color: #ffcc00;
+    /* Golden text on hover */
+    transform: translateY(-2px);
+    /* Slight lift on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Add shadow on hover */
+}
+
+.header-link:active {
+    transform: translateY(1px);
+    /* Slight push down on click */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    /* Reduced shadow on click */
+}
+
+.header-link:focus {
+    outline: none;
+    /* Remove focus outline */
+    box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.5);
+    /* Custom focus ring */
+}
+
+@media (max-width: 768px) {
+    .header-list {
+        flex-direction: column;
+        /* Stack items vertically */
+        align-items: flex-start;
+        /* Align to the start */
+        gap: 1rem;
+        /* Less gap between items */
+    }
+
+    .header-link {
+        padding: 0.5rem 1rem;
+        /* Adjust padding for smaller screens */
+        font-size: 1rem;
+        /* Smaller font size */
+    }
+}
