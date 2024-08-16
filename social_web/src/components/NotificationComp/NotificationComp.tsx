@@ -9,9 +9,13 @@ interface Notification {
     date: string;
 }
 
-const NotificationComp: React.FC<{ notiData: Notification }> = ({ notiData }) => {
+interface NotificationCompProps {
+    notiData: Notification;
+}
+
+const NotificationComp: React.FC<NotificationCompProps> = ({ notiData }) => {
     return (
-        <div>
+        <div className="notification-container">
             <ul className="notifications-list">
                 <li className="notification-item">
                     <div className="notification-icon">{notiData.icon}</div>
