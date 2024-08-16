@@ -5,9 +5,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Profile.css';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../../components';
+import { _hitLogoutApi } from '../../redux/reduxActions/authActions';
+import { useSelector } from 'react-redux';
 // import { Header } from '../../components';
 
 const Profile = () => {
+
+    const userData = useSelector((state) => state?.authReducers?.userData || {})
+    console.log(userData, "userDatauserDatauserData");
+
     const navigate = useNavigate();
     const [showLogoutModal, setShowLogoutModal] = useState(false);
 
@@ -16,6 +22,7 @@ const Profile = () => {
     };
 
     const handleLogout = () => {
+        _hitLogoutApi()
         console.log('Logged out');
         navigate('/login');
     };
@@ -36,9 +43,9 @@ const Profile = () => {
                                 alt="Profile"
                                 className="profile-img"
                             />
-                            <Card.Title className="mt-3">John Doe</Card.Title>
-                            <Card.Subtitle className="mb-2 text-muted">Username: johndoe</Card.Subtitle>
-                            <Card.Subtitle className="mb-2 text-muted">User Type: Premium</Card.Subtitle>
+                            <Card.Title className="mt-3">{userData?.name}</Card.Title>
+                            <Card.Subtitle className="mb-2 text-muted">Username: {userData?.userName}</Card.Subtitle>
+                            <Card.Subtitle className="mb-2 text-muted">User Type: {userData?.userType}</Card.Subtitle>
                             <Button
                                 variant="primary"
                                 className="edit-button"
@@ -52,21 +59,21 @@ const Profile = () => {
                                 <Form.Group as={Row} controlId="formName" className="mb-4">
                                     <Form.Label column sm={3}>Name:</Form.Label>
                                     <Col sm={9}>
-                                        <Form.Control type="text" value="John Doe" readOnly />
+                                        <Form.Control type="text" value={userData?.name} readOnly />
                                     </Col>
                                 </Form.Group>
 
                                 <Form.Group as={Row} controlId="formEmail" className="mb-4">
                                     <Form.Label column sm={3}>Email:</Form.Label>
                                     <Col sm={9}>
-                                        <Form.Control type="email" value="john.doe@example.com" readOnly />
+                                        <Form.Control type="email" value={userData?.email} readOnly />
                                     </Col>
                                 </Form.Group>
 
                                 <Form.Group as={Row} controlId="formPhone" className="mb-4">
                                     <Form.Label column sm={3}>Phone Number:</Form.Label>
                                     <Col sm={9}>
-                                        <Form.Control type="text" value="+1234567890" readOnly />
+                                        <Form.Control type="text" value={userData?.phoneNumber} readOnly />
                                     </Col>
                                 </Form.Group>
 

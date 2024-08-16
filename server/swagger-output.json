@@ -266,6 +266,16 @@
           }
         }
       }
+    },
+    "/get-user-detail": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
     }
   },
   "request": {

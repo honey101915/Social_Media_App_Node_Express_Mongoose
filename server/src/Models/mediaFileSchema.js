@@ -12,13 +12,10 @@ const mediaFileSchema = new mongoose.Schema(
             type: String,
             default: "image"
         },
-        fileName: {
-            type: String
-        },
-        path: {
+        url: {
             type: String,
         },
-        url: {
+        caption: {
             type: String,
         }
     },

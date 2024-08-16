@@ -14,7 +14,7 @@ const updateProfile = async (req, res) => {
         if (email || userName) {
             return UniversalFunction.SendResponse(res, 401, "You can't update email and username")
         }
-        const findUser = await userSchema.findById(currentUser?.id)
+        const findUser = await userSchema.findById(currentUser?._id)
 
         if (findUser?.accessToken === null) {
             return UniversalFunction.SendResponse(res, 401, "Unauthorized user")
@@ -25,7 +25,7 @@ const updateProfile = async (req, res) => {
             ...req.body
         }
         await userSchema.findByIdAndUpdate(
-            req.user.id,
+            req.user._id,
             updatedUser,
             { new: true }
         )
@@ -39,9 +39,9 @@ const deleteProfile = async (req, res) => {
     try {
         var currentUser = req.user
 
-        const findUser = await userSchema.findById(currentUser?.id)
+        const findUser = await userSchema.findById(currentUser?._id)
         if (findUser) {
-            await userSchema.findByIdAndDelete(currentUser?.id)
+            await userSchema.findByIdAndDelete(currentUser?._id)
             return UniversalFunction.SendResponse(res, 200, "User deleted successfully.")
         } else {
             return UniversalFunction.SendResponse(res, 404, "User not found")
@@ -54,9 +54,9 @@ const deleteProfile = async (req, res) => {
 const logout = async (req, res) => {
     try {
         var currentUser = req.user
-        const findUser = await userSchema.findById(currentUser.id)
+        const findUser = await userSchema.findById(currentUser._id)
         if (findUser) {
-            await userSchema.findByIdAndUpdate(currentUser?.id, {
+            await userSchema.findByIdAndUpdate(currentUser?._id, {
                 accessToken: null
             })
             return UniversalFunction.SendResponse(res, 200, "User is logged out successfully")
@@ -72,7 +72,7 @@ const addInterests = async (req, res) => {
     try {
         var currentUser = req.user
         const { interests } = req.body
-        const findUser = await userSchema.findById(currentUser?.id)
+        const findUser = await userSchema.findById(currentUser?._id)
         if (!interests) {
             return UniversalFunction.SendResponse(res, 404, "Interests is required")
         }
@@ -95,18 +95,18 @@ const uploadProfilePic = async (req, res) => {
         console.log(req.get('host'), "req.get('host')")
         var currentUser = req.user
 
-        var findUser = await userSchema.findById(currentUser?.id)
+        var findUser = await userSchema.findById(currentUser?._id)
         const fileUrl = `${req.protocol}://${req.get('host')}/${req.file.path}`;
         findUser.profileImage = fileUrl
 
         const updatedUser = await userSchema.findByIdAndUpdate(
-            currentUser?.id,
+            currentUser?._id,
             findUser,
             { new: true }
         )
 
         let mediaData = {
-            userId: currentUser?.id,
+            userId: currentUser?._id,
             type: "image",
             fileName: req.file.filename,
             path: req.file.path,

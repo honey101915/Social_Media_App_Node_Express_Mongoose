@@ -4,36 +4,11 @@ import { Loader, UserComp } from '../../components';
 import { getAllUsersApi } from '../../redux/reduxActions/homeActions';
 import { notifyError } from '../../utils/ToastConfig';
 import { ApiError } from '../../utils/helperFunctions';
-
-type Person = {
-    id: number;
-    name: string;
-    username: string;
-    image: string;
-};
-
-const people: Person[] = [
-    {
-        id: 1,
-        name: 'John Doe',
-        username: '@johndoe',
-        image: 'https://via.placeholder.com/100',
-    },
-    {
-        id: 2,
-        name: 'Jane Smith',
-        username: '@janesmith',
-        image: 'https://via.placeholder.com/100',
-    },
-    {
-        id: 3,
-        name: 'Alice Johnson',
-        username: '@alicejohnson',
-        image: 'https://via.placeholder.com/100',
-    },
-];
+import { useNavigate } from 'react-router-dom';
 
 const AllUsers: React.FC = () => {
+
+    const navigate = useNavigate()
 
     const [isLoding, setLoading] = useState(true)
     const [allUsers, setAllUsers] = useState([])
@@ -60,6 +35,9 @@ const AllUsers: React.FC = () => {
                     key={person?._id}
                     personData={person}
                     personIndex={index}
+                    handleCardClick={() => navigate("/home/allUsers/userDetail", {
+                        state: { person }
+                    })}
                 />
             ))}
             {isLoding && <Loader />}

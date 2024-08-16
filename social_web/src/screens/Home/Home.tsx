@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Home.css';
-import { FaHeart, FaComment, FaShare, FaBookmark, FaArrowRight } from 'react-icons/fa';
+import { FaHeart, FaComment, FaShare, FaBookmark, FaArrowRight, FaPlus, FaUserFriends } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { getAllPostApi } from '../../redux/reduxActions/homeActions';
+import { notifyError } from '../../utils/ToastConfig';
+import { ApiError } from '../../utils/helperFunctions';
 
 interface Post {
     id: number;
@@ -29,14 +32,40 @@ const posts: Post[] = [
 ];
 
 const Home: React.FC = () => {
+
+    const [allPosts, setAllPosts] = useState([])
+    const [isLoding, setLoading] = useState(true)
+
+    useEffect(() => {
+        _getAllUsersPosts()
+    }, [])
+
+    const _getAllUsersPosts = () => {
+        let _query = `?type=HOME`
+        getAllPostApi(_query).then((res: any) => {
+            console.log(res, "getAllPostApi");
+            setAllPosts(res?.data)
+        }).catch((error: any) => {
+            notifyError(ApiError(error))
+            setLoading(false)
+        })
+    }
+
     return (
         <div className="home-container">
             <header className="header">
                 <h1>Home</h1>
             </header>
-            <section className="top-right">
+
+            <section className="common-buttons">
+                <Link to={"./addPost"}>
+                    <button className="common-btn">
+                        <FaPlus size={20} className="common-btn-icon" />
+                        Add Post
+                    </button>
+                </Link>
                 <Link to={"./allUsers"}>
-                    <button className="dropdown-toggle">
+                    <button className="common-btn">
                         <img
                             src="https://png.pngtree.com/png-vector/20220519/ourmid/pngtree-true-friends-icon-color-flat-png-image_4695403.png"
                             alt="Profile"
@@ -47,6 +76,7 @@ const Home: React.FC = () => {
                     </button>
                 </Link>
             </section>
+
             <section className="posts">
                 {posts.map(post => (
                     <article key={post.id} className="post-card">
@@ -75,6 +105,7 @@ const Home: React.FC = () => {
                     </article>
                 ))}
             </section>
+
         </div>
     );
 };

@@ -37,7 +37,7 @@ const upload = multer({ storage: storage })
 
 userRouter.route("/update-profile").post(validateToken, UserControllers.updateProfile)
 userRouter.route("/delete-profile").delete(validateToken, UserControllers.deleteProfile)
-userRouter.route("/logout").post(validateToken, UserControllers.logout)
+userRouter.route("/logout").get(validateToken, UserControllers.logout)
 userRouter.route("/select-interests").post(validateToken, UserControllers.addInterests)
 userRouter.route("/upload-profile-pic").post(validateToken, upload.single('fileName'), UserControllers.uploadProfilePic)
 

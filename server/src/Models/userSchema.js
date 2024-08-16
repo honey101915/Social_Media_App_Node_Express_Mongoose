@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
         },
         profileImage: {
             type: String,
-            default: 'https://t3.ftcdn.net/jpg/03/64/62/36/360_F_364623623_ERzQYfO4HHHyawYkJ16tREsizLyvcaeg.jpg'
+            default: 'https://i0.wp.com/flickside.com/wp-content/uploads/2022/11/highest-paid-actors.jpg?fit=1200%2C900&ssl=1'
         },
         phoneNumber: {
             type: Number,

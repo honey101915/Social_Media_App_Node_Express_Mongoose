@@ -9,18 +9,25 @@ type PersonProps = {
         userName: string;
         profileImage: string;
     };
-    personIndex: number
+    personIndex: number,
+    handleCardClick: any
 };
 
-const UserComp: React.FC<PersonProps> = ({ personData, personIndex }) => {
+const UserComp: React.FC<PersonProps> = ({
+    personData,
+    personIndex,
+    handleCardClick
+}) => {
     return (
-        <div className="people-list-container" key={personData?._id}>
+        <div className="people-list-container" key={personData?._id}
+            onClick={handleCardClick}
+            style={{ cursor: 'pointer' }}>
             {/* <h2>{personIndex}</h2> */}
             <div className="person-card">
                 <img src={personData?.profileImage} alt={personData?.name} className="person-image" />
                 <div className="person-details">
-                    <h2>{personData?.name}</h2>
-                    <p>{personData?.userName}</p>
+                    <h2 className='name-text'>{personData?.name}</h2>
+                    <p className='name-text'>{personData?.userName}</p>
                     <div className="action-buttons">
                         <button className="send-request-btn">Send Request</button>
                         <button className="message-btn">Message</button>

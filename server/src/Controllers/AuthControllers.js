@@ -119,7 +119,7 @@ const loginUser = async (req, res) => {
                     user: {
                         username: findUser?.userName,
                         email: findUser?.email,
-                        id: findUser?._id,
+                        _id: findUser?._id,
                         phoneNumber: findUser?.phoneNumber,
                         name: findUser?.name,
                         profileImage: findUser?.profileImage

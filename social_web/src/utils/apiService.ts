@@ -2,11 +2,13 @@
 import axios from 'axios'
 
 import { API_BASE_URL } from '../config/urls';
+import Keys from '../config/Keys';
 // import { saveUserDataToStore } from '../redux/reduxActions/authActions'
 
 export async function getHeaders() {
-    let userData: any = await localStorage.getItem('userData')
-    // console.log(userData, 'USERDATA');
+    let userData: any = await localStorage.getItem(Keys.USER_DATA)
+    console.log(userData, "userDatauserDatauserDatauserDatauserData");
+
     if (userData) {
         userData = JSON.parse(userData)
         if (userData?.accessToken !== undefined) {

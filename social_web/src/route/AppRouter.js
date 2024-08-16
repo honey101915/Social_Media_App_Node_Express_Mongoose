@@ -51,6 +51,14 @@ const APP_ROUTES = [
         path: "/home/allUsers",
         element: <ScreenName.AllUsers />,
     },
+    {
+        path: "/home/allUsers/userDetail",
+        element: <ScreenName.UserDetail />,
+    },
+    {
+        path: "/home/addPost",
+        element: <ScreenName.AddPost />,
+    }
 ];
 
 export const route = createBrowserRouter(APP_ROUTES)
@@ -61,7 +69,7 @@ const AppRouter = () => {
 
     return (
         <BrowserRouter>
-            {userData?.accessToken && <HomeHeader />}
+            {!!userData?.accessToken && <HomeHeader />}
             <Routes>
                 {APP_ROUTES.map((route, index) => {
                     return (

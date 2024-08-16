@@ -16,7 +16,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
-    const [email, setEmail] = useState('honey@gmail.com');
+    const [email, setEmail] = useState('gulsher@gmail.com');
     const [password, setPassword] = useState('123456');
 
 

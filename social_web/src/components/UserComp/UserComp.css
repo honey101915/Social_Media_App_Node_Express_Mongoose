@@ -91,3 +91,7 @@
     background-color: #1e7e34;
     transform: scale(1.1);
 }
+
+.name-text {
+    text-transform: capitalize;
+}
