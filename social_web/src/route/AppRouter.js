@@ -47,6 +47,10 @@ const APP_ROUTES = [
         path: "/settings",
         element: <ScreenName.Settings />,
     },
+    {
+        path: "/home/allUsers",
+        element: <ScreenName.AllUsers />,
+    },
 ];
 
 export const route = createBrowserRouter(APP_ROUTES)

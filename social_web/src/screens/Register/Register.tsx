@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useEffect } from "react";
 import "./Register.css";
 import { Link } from "react-router-dom";
 import {
@@ -7,11 +7,14 @@ import {
     isValidEmail,
 } from "../../utils/validations";
 import { notifyError, notifySuccess } from "../../utils/ToastConfig";
-import { signupApi } from "../../redux/reduxActions/authActions";
+import { getAllInterestsApi, signupApi } from "../../redux/reduxActions/authActions";
 import { Header, Loader } from "../../components";
 import { ApiError, ApiSuccessResponse } from "../../utils/helperFunctions";
 
 const Register: React.FC = () => {
+
+    const [allAvailInterests, getAllAvailInterests] = useState([])
+
     const [loading, setLoading] = useState<boolean>(false);
     const [userName, setUserName] = useState<string>("");
     const [name, setName] = useState<string>("");
@@ -24,6 +27,18 @@ const Register: React.FC = () => {
     const [profession, setProfession] = useState<string>("");
     const [interests, setInterests] = useState<string[]>([]);
     const [about, setAbout] = useState<string>("");
+
+    useEffect(() => {
+        _getAllInterests()
+    }, [])
+
+    const _getAllInterests = () => {
+        getAllInterestsApi().then((res: any) => {
+            getAllAvailInterests(res?.data)
+        }).catch((error) => {
+            notifyError(ApiError(error))
+        })
+    }
 
     const _emptyStates = () => {
         setUserName("");
@@ -211,33 +226,20 @@ const Register: React.FC = () => {
                     <label htmlFor="profession">Interests</label>
                     <div className="interests-fieldset">
                         <div className="checkbox-container">
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    value="technology"
-                                    checked={interests.includes("technology")}
-                                    onChange={handleInterestChange}
-                                />
-                                Technology
-                            </label>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    value="sports"
-                                    checked={interests.includes("sports")}
-                                    onChange={handleInterestChange}
-                                />
-                                Sports
-                            </label>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    value="music"
-                                    checked={interests.includes("music")}
-                                    onChange={handleInterestChange}
-                                />
-                                Music
-                            </label>
+
+                            {allAvailInterests.map((item: any) => {
+                                return (
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            value={item?.name}
+                                            checked={interests.includes(item?.name)}
+                                            onChange={handleInterestChange}
+                                        />
+                                        {item?.name}
+                                    </label>
+                                )
+                            })}
                             {/* Add more interests as needed */}
                         </div>
                     </div>

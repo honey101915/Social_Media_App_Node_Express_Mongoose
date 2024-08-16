@@ -13,6 +13,12 @@ const registerUser = async (req, res) => {
         var password = String(req.body?.password || "");
         var phoneNumber = String(req.body?.phoneNumber || "");
 
+        var dob = String(req.body?.phoneNumber || "");
+        var age = String(req.body?.age || "");
+        var gender = String(req.body?.gender || "");
+        var profession = String(req.body?.profession || "");
+        var about = String(req.body?.about || "");
+
         if (userName.trim() === '') {
             UniversalFunction.SendResponse(res, 404, "Username is required")
             return;
@@ -44,7 +50,17 @@ const registerUser = async (req, res) => {
 
 
         var newUserData = {
-            userName, name, email, phoneNumber, password: hashedPassword, isVerified: true
+            userName,
+            name,
+            email,
+            phoneNumber,
+            password: hashedPassword,
+            dob,
+            age,
+            gender,
+            profession,
+            about,
+            isVerified: true
         }
 
         if (req?.body?.latitude && req?.body?.longitude && req?.body?.city) {

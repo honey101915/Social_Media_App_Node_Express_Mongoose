@@ -1,0 +1,93 @@
+/* src/UserComp.css */
+
+.people-list-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.person-card {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 10px;
+    max-width: 600px;
+    width: 100%;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.person-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+}
+
+.person-image {
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    margin-right: 20px;
+    border: 3px solid #007bff;
+    transition: border 0.3s;
+}
+
+.person-card:hover .person-image {
+    border-color: #0056b3;
+}
+
+.person-details {
+    flex-grow: 1;
+}
+
+.person-details h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+}
+
+.person-details p {
+    margin: 8px 0;
+    font-size: 1rem;
+    color: #555;
+    font-family: 'Arial', sans-serif;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.send-request-btn,
+.message-btn {
+    padding: 12px 25px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: 'Arial', sans-serif;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.send-request-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.send-request-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+.message-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.message-btn:hover {
+    background-color: #1e7e34;
+    transform: scale(1.1);
+}

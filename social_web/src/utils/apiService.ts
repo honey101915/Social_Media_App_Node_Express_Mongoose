@@ -18,50 +18,6 @@ export async function getHeaders() {
     return {}
 }
 
-export function setUserData(data: any) {
-    data = JSON.stringify(data)
-    return localStorage.setItem('userData', data)
-}
-
-export function setItem(key: any, data: any) {
-    data = JSON.stringify(data)
-    return localStorage.setItem(key, data)
-}
-
-export function getItem(key: any) {
-    return new Promise((resolve, reject) => {
-        const data = localStorage.getItem(key);
-        if (data !== null) {
-            resolve(JSON.parse(data));
-        } else {
-            reject(null);
-        }
-    });
-}
-
-export function removeItem(key: any) {
-    return localStorage.removeItem(key)
-}
-
-export function clearAsyncStorate(key: any) {
-    return localStorage.clear()
-}
-
-export async function getUserData() {
-    return new Promise((resolve, reject) => {
-        const data = localStorage.getItem('userData');
-        if (data !== null) {
-            resolve(JSON.parse(data));
-        } else {
-            reject(null);
-        }
-    });
-}
-
-export async function clearUserData() {
-    return localStorage.removeItem('userData')
-}
-
 export async function apiReq(
     endPoint: string,
     data = null,
