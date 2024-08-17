@@ -104,7 +104,7 @@ const dislikePost = async (req, res) => {
     try {
         const { postId } = req.body
         const currentUser = req.user
-        const _currentLoggedInUser = await userSchema.findById(currentUser?.id)
+        const _currentLoggedInUser = await userSchema.findById(currentUser?._id)
 
         const getPostById = await postSchema.findOne({ _id: postId })
         if (!getPostById) {
@@ -151,16 +151,30 @@ const getAllPosts = async (req, res) => {
             })
             return UniversalFunction.SendResponse(res, 200, "Success", _allPosts)
         } else {
-            const _allPosts = await postSchema.find()
+            const postsWithUserDetails = await postSchema.aggregate([
+                {
+                    $lookup: {
+                        from: 'users', // The name of the collection that contains user details
+                        localField: 'userId', // Field from the postSchema
+                        foreignField: '_id', // Field from the userSchema
+                        as: 'userDetails' // The name of the field to add to the posts with user details
+                    }
+                },
+                {
+                    $unwind: {
+                        path: '$userDetails',
+                        preserveNullAndEmptyArrays: true // Optional: keep posts even if no user details are found
+                    }
+                }, {
+                    $project: {
+                        "userDetails.accessToken": 0,
+                        "userDetails.password": 0,
+                        "userDetails.fcmToken": 0
+                    }
+                }
+            ]);
+            return UniversalFunction.SendResponse(res, 200, "Success", postsWithUserDetails);
 
-            // const excludeUserId = req.user._id;
-            // const _allPosts = excludeUserId
-            //     ? await postSchema.find({
-            //         userId: { $ne: excludeUserId }
-            //     })
-            //     : await postSchema.find();
-
-            return UniversalFunction.SendResponse(res, 200, "Success", _allPosts)
         }
     } catch (error) {
         return UniversalFunction.SendServerError(res, error)

@@ -14,26 +14,26 @@ interface Post {
     caption: string;
 }
 
-const posts: Post[] = [
-    {
-        id: 1,
-        username: 'johndoe',
-        userImage: 'https://via.placeholder.com/50',
-        postImage: 'https://wallpapers.com/images/featured/new-york-city-5oaa14h4mw6w3o71.jpg',
-        caption: 'Enjoying the beautiful sunset!',
-    },
-    {
-        id: 2,
-        username: 'janedoe',
-        userImage: 'https://via.placeholder.com/50',
-        postImage: 'https://wallpapers.com/images/featured/new-york-city-5oaa14h4mw6w3o71.jpg',
-        caption: 'Great time hiking with friends.',
-    },
-];
+// const posts: Post[] = [
+//     {
+//         id: 1,
+//         username: 'johndoe',
+//         userImage: 'https://via.placeholder.com/50',
+//         postImage: 'https://wallpapers.com/images/featured/new-york-city-5oaa14h4mw6w3o71.jpg',
+//         caption: 'Enjoying the beautiful sunset!',
+//     },
+//     {
+//         id: 2,
+//         username: 'janedoe',
+//         userImage: 'https://via.placeholder.com/50',
+//         postImage: 'https://wallpapers.com/images/featured/new-york-city-5oaa14h4mw6w3o71.jpg',
+//         caption: 'Great time hiking with friends.',
+//     },
+// ];
 
 const Home: React.FC = () => {
 
-    const [allPosts, setAllPosts] = useState([])
+    const [allPosts, setAllPosts] = useState<any>([])
     const [isLoding, setLoading] = useState(true)
 
     useEffect(() => {
@@ -78,23 +78,27 @@ const Home: React.FC = () => {
             </section>
 
             <section className="posts">
-                {posts.map(post => (
-                    <article key={post.id} className="post-card">
+                {allPosts.map((post: any) => (
+                    <article key={post._id} className="post-card">
                         <header className="post-header">
                             <img
-                                src={post.userImage}
-                                alt={post.username}
+                                src={post?.userDetails?.profileImage}
+                                alt={post?.userDetails?.name}
                                 className="user-img"
                             />
-                            <h2>{post.username}</h2>
+                            <div>
+                                <h2 className='name-text'>{post?.userDetails?.name}</h2>
+                                <h5>{"@" + post?.userDetails?.userName}</h5>
+                            </div>
+
                         </header>
                         <img
-                            src={post.postImage}
+                            src={post?.fileUrl}
                             alt="Post"
                             className="post-img"
                         />
                         <div className="post-body">
-                            <p>{post.caption}</p>
+                            <p>{post?.caption}</p>
                             <div className="post-actions">
                                 <button className="action-btn"><FaHeart size={24} /></button>
                                 <button className="action-btn"><FaComment size={24} /></button>

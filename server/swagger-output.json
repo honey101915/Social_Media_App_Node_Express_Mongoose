@@ -81,7 +81,7 @@
       }
     },
     "/logout": {
-      "post": {
+      "get": {
         "description": "",
         "parameters": [
           {
@@ -171,18 +171,6 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "postData": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -258,6 +246,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "type": "string"
           }
         ],
         "responses": {
@@ -270,9 +263,21 @@
     "/get-user-detail": {
       "get": {
         "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }

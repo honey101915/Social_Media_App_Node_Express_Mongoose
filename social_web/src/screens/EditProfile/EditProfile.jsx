@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './EditProfile.css'; // Import custom CSS file
 import { Header } from '../../components';
+import { useSelector } from 'react-redux';
 
 const interestsList = [
     'Reading', 'Traveling', 'Cooking', 'Gaming', 'Music',
@@ -10,6 +11,10 @@ const interestsList = [
 ];
 
 const EditProfile = () => {
+
+    const userData = useSelector((state) => state?.authReducers?.userData || {})
+    console.log(userData, "userDatauserDatauserData");
+
     // State to manage form fields
     const [profileData, setProfileData] = useState({
         name: 'John Doe',
@@ -61,7 +66,7 @@ const EditProfile = () => {
                                         <Form.Control
                                             type="text"
                                             name="name"
-                                            value={profileData.name}
+                                            value={userData?.name}
                                             onChange={handleChange}
                                         />
                                     </Col>
@@ -73,7 +78,7 @@ const EditProfile = () => {
                                         <Form.Control
                                             type="email"
                                             name="email"
-                                            value={profileData.email}
+                                            value={userData?.email}
                                             onChange={handleChange}
                                         />
                                     </Col>
@@ -85,7 +90,7 @@ const EditProfile = () => {
                                         <Form.Control
                                             type="number"
                                             name="phoneNumber"
-                                            value={profileData.phoneNumber}
+                                            value={userData?.phoneNumber}
                                             onChange={handleChange}
                                         />
                                     </Col>
@@ -97,7 +102,7 @@ const EditProfile = () => {
                                         <Form.Control
                                             type="date"
                                             name="dob"
-                                            value={profileData.dob}
+                                            value={userData?.dob}
                                             onChange={handleChange}
                                         />
                                     </Col>
@@ -109,7 +114,7 @@ const EditProfile = () => {
                                         <Form.Control
                                             type="text"
                                             name="age"
-                                            value={profileData.age}
+                                            value={userData?.age}
                                             onChange={handleChange}
                                         />
                                     </Col>
@@ -121,7 +126,7 @@ const EditProfile = () => {
                                         <Form.Control
                                             type="text"
                                             name="gender"
-                                            value={profileData.gender}
+                                            value={userData?.gender}
                                             onChange={handleChange}
                                         />
                                     </Col>
@@ -133,7 +138,7 @@ const EditProfile = () => {
                                         <Form.Control
                                             type="text"
                                             name="profession"
-                                            value={profileData.profession}
+                                            value={userData?.profession}
                                             onChange={handleChange}
                                         />
                                     </Col>
@@ -164,7 +169,7 @@ const EditProfile = () => {
                                             as="textarea"
                                             rows={4}
                                             name="about"
-                                            value={profileData.about}
+                                            value={userData?.about}
                                             onChange={handleChange}
                                         />
                                     </Col>

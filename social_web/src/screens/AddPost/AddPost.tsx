@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import './AddPost.css';
 import { addNewPostApi } from '../../redux/reduxActions/homeActions';
 import { Loader } from '../../components';
+import { useNavigate } from 'react-router-dom';
 
 const AddPost: React.FC = () => {
+
+    const navigate = useNavigate();
 
     const [isLoding, setLoading] = useState(false)
     const [photo, setPhoto] = useState<File | null>(null);
@@ -36,6 +39,7 @@ const AddPost: React.FC = () => {
 
         addNewPostApi(apiData).then((res) => {
             setLoading(false)
+            navigate(-1);
         }).catch((error) => {
             setLoading(false)
         })

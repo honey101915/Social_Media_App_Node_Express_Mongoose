@@ -80,28 +80,28 @@ const Profile = () => {
                                 <Form.Group as={Row} controlId="formDob" className="mb-4">
                                     <Form.Label column sm={3}>Date of Birth:</Form.Label>
                                     <Col sm={9}>
-                                        <Form.Control type="date" value="1990-01-01" readOnly />
+                                        <Form.Control type="date" value={userData?.dob} readOnly />
                                     </Col>
                                 </Form.Group>
 
                                 <Form.Group as={Row} controlId="formAge" className="mb-4">
                                     <Form.Label column sm={3}>Age:</Form.Label>
                                     <Col sm={9}>
-                                        <Form.Control type="text" value="34" readOnly />
+                                        <Form.Control type="text" value={userData?.age} readOnly />
                                     </Col>
                                 </Form.Group>
 
                                 <Form.Group as={Row} controlId="formGender" className="mb-4">
                                     <Form.Label column sm={3}>Gender:</Form.Label>
                                     <Col sm={9}>
-                                        <Form.Control type="text" value="Male" readOnly />
+                                        <Form.Control type="text" value={userData?.gender} readOnly />
                                     </Col>
                                 </Form.Group>
 
                                 <Form.Group as={Row} controlId="formProfession" className="mb-4">
                                     <Form.Label column sm={3}>Profession:</Form.Label>
                                     <Col sm={9}>
-                                        <Form.Control type="text" value="Software Engineer" readOnly />
+                                        <Form.Control type="text" value={userData?.profession} readOnly />
                                     </Col>
                                 </Form.Group>
 
@@ -115,7 +115,7 @@ const Profile = () => {
                                 <Form.Group as={Row} controlId="formAbout" className="mb-4">
                                     <Form.Label column sm={3}>About:</Form.Label>
                                     <Col sm={9}>
-                                        <Form.Control as="textarea" rows={3} value="Lorem ipsum dolor sit amet, consectetur adipiscing elit." readOnly />
+                                        <Form.Control as="textarea" rows={3} value={userData?.about} readOnly />
                                     </Col>
                                 </Form.Group>
 

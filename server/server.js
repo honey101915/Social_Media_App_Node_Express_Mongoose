@@ -29,7 +29,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // It helps to parse the Form data.  
 
-app.use(EndPoints.BASE, handleRoutes)
+app.use("/api", handleRoutes)
 
 app.listen(PORT, () => {
     console.log("Server is runnig on PORT => " + PORT)
