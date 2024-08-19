@@ -49,8 +49,8 @@ export function clearAsyncStorate(key: any) {
 }
 
 export async function getUserData() {
-    return new Promise((resolve, reject) => {
-        const data = localStorage.getItem(Keys.USER_DATA);
+    return new Promise(async (resolve, reject) => {
+        const data = await localStorage.getItem(Keys.USER_DATA);
         if (data !== null) {
             resolve(JSON.parse(data));
         } else {

@@ -14,8 +14,10 @@ const App = () => {
 
   const _getUserData = async () => {
     try {
-      // const _userdata = getUserData()
-      // saveUserDataToRedux(_userdata)
+      const _userdata = await getUserData()
+      console.log(_userdata, "_userdata_userdata");
+
+      saveUserDataToRedux(_userdata || null)
     } catch (error) {
 
       console.error('Caught error:', error);

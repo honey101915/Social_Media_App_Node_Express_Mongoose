@@ -46,7 +46,7 @@ export const _hitLogoutApi = () => {
     return new Promise((resolve, reject) => {
         apiGet(LOG_OUT).then((res) => {
             resolve(res)
-            // saveUserDataToRedux(null)
+            saveUserDataToRedux(null)
         }).catch((error) => {
             reject(error)
         })
