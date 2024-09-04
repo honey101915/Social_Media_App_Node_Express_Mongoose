@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema.Types
 
 const userSchema = new mongoose.Schema(
     {
@@ -49,12 +50,18 @@ const userSchema = new mongoose.Schema(
             type: {
                 latitude: Number,
                 longitude: Number,
-                city: String
+                city: String,
+                country: String,
+                state: String,
+                postalCode: String,
             },
             default: {
                 latitude: 40.7128,
                 longitude: -74.0060,
-                address: "New York, USA"
+                city: "New York",
+                country: "USA",
+                state: "New York",
+                postalCode: "10001"
             }
         },
         isVerified: {
@@ -80,11 +87,11 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: null
         },
-        interests: {
-            type: Array,
+        interests: [{
+            type: ObjectId,
             default: [],
             ref: "interests"
-        },
+        }],
         dob: {
             type: Date,
             default: null
@@ -93,6 +100,11 @@ const userSchema = new mongoose.Schema(
             type: Number,
             default: null
         },
+        preferredLanguages: [{
+            type: ObjectId,
+            default: [],
+            ref: "languages"
+        }]
     },
     {
         timestamps: true, versionKey: false

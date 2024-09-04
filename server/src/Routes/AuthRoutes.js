@@ -6,5 +6,6 @@ const authRouter = express.Router();
 // authRouter.route(EndPoints.REGISTER_USER).post(AuthControllers.registerUser);
 authRouter.route("/auth/register-user").post(AuthControllers.registerUser);
 authRouter.route("/auth/login").post(AuthControllers.loginUser)
+authRouter.route("/get-all-languages").get(AuthControllers.getAllLanguages)
 
 module.exports = authRouter;

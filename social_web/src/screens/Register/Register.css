@@ -1,7 +1,7 @@
 /* Register.css */
 
 .register-container {
-    max-width: 600px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 2rem 3rem;
     background-color: #fefefe;
@@ -59,15 +59,16 @@ textarea {
     min-height: 120px;
 }
 
-.interests-fieldset {
+.interests-fieldset,
+.address-fieldset {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 1.5rem;
-    background-color: #f9f9f9;
-    /* margin-top: 1rem; */
+    background-color: #e5e6f0;
 }
 
-.interests-fieldset legend {
+.interests-fieldset legend,
+.address-fieldset legend {
     font-weight: bold;
     color: #333;
     padding: 0 0.5rem;
@@ -76,7 +77,8 @@ textarea {
     border-bottom: 2px solid #ddd;
 }
 
-.interests-fieldset label {
+.interests-fieldset label,
+.address-fieldset label {
     display: flex;
     align-items: center;
     margin-bottom: 0.75rem;
@@ -85,15 +87,17 @@ textarea {
     cursor: pointer;
 }
 
-.interests-fieldset input[type="checkbox"] {
+.interests-fieldset input[type="checkbox"],
+.address-fieldset input[type="checkbox"] {
     margin-right: 0.75rem;
     accent-color: #007bff;
 }
 
-.interests-fieldset .checkbox-container {
+.interests-fieldset .checkbox-container,
+.address-fieldset .checkbox-container {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .btn {
@@ -130,4 +134,30 @@ textarea {
 .login p {
     margin-bottom: 0.5rem;
     color: #555;
+}
+
+.box-container {
+    background-color: #e0f7fa;
+    border-radius: 8px;
+    padding: 10px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* New styles for Address section */
+.address-fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.address-fieldset .address-line {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.address-fieldset .address-line:nth-of-type(2) {
+    margin-bottom: 0;
 }

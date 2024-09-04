@@ -38,6 +38,12 @@ const AllUsers: React.FC = () => {
                     handleCardClick={() => navigate("/home/allUsers/userDetail", {
                         state: { person }
                     })}
+                    onclickSendRequest={() => {
+                        alert("Send Request")
+                    }}
+                    onclickSendMessage={() => {
+                        alert("Send Message")
+                    }}
                 />
             ))}
             {isLoding && <Loader />}

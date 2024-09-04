@@ -1,4 +1,4 @@
-import { ALL_INTERESTS, LOG_OUT, LOGIN_API, SIGNUP_API } from "../../config/urls"
+import { ALL_INTERESTS, ALL_LANGUAGES, LOG_OUT, LOGIN_API, SIGNUP_API } from "../../config/urls"
 import { apiGet, apiPost } from "../../utils/apiService"
 import { setUserData } from "../../utils/LocalStorage";
 import { saveUserData } from "../reduxReducers/authReducers";
@@ -35,6 +35,16 @@ export const signupApi = (payload: any) => {
 export const getAllInterestsApi = () => {
     return new Promise((resolve, reject) => {
         apiGet(ALL_INTERESTS).then((res) => {
+            resolve(res)
+        }).catch((error) => {
+            reject(error)
+        })
+    })
+}
+
+export const getAllLanguagesApi = () => {
+    return new Promise((resolve, reject) => {
+        apiGet(ALL_LANGUAGES).then((res) => {
             resolve(res)
         }).catch((error) => {
             reject(error)

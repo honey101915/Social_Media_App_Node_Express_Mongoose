@@ -1,6 +1,9 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
 const userSchema = require("../Models/userSchema");
+const languageSchema = require("../Models/languagesSchema")
+
 const UniversalFunction = require("../lib/UniversalFunction")
 const CommonMessages = require("../Constants/en")
 
@@ -18,6 +21,9 @@ const registerUser = async (req, res) => {
         var gender = String(req.body?.gender || "");
         var profession = String(req.body?.profession || "");
         var about = String(req.body?.about || "");
+
+        var myInterests = req.body?.interests || [];
+        var myPrefLang = req.body?.preferredLanguages || [];
 
         if (userName.trim() === '') {
             UniversalFunction.SendResponse(res, 404, "Username is required")
@@ -60,8 +66,11 @@ const registerUser = async (req, res) => {
             gender,
             profession,
             about,
-            isVerified: true
+            isVerified: true,
+            interests: myInterests,
+            preferredLanguages: myPrefLang
         }
+        console.log(newUserData, "newUserDatanewUserData", req.body);
 
         if (req?.body?.latitude && req?.body?.longitude && req?.body?.city) {
             newUserData = {
@@ -144,4 +153,16 @@ const loginUser = async (req, res) => {
     }
 }
 
-module.exports = { registerUser, loginUser }
+const getAllLanguages = async (req, res) => {
+    try {
+        const allLanguages = await languageSchema.find().sort({ name: 1 });
+        if (Array.isArray(allLanguages)) {
+            return UniversalFunction.SendResponse(res, 200, CommonMessages.success, allLanguages)
+        }
+    } catch (error) {
+        return UniversalFunction.SendServerError(res, error)
+    }
+
+}
+
+module.exports = { registerUser, loginUser, getAllLanguages }

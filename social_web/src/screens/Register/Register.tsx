@@ -7,13 +7,14 @@ import {
     isValidEmail,
 } from "../../utils/validations";
 import { notifyError, notifySuccess } from "../../utils/ToastConfig";
-import { getAllInterestsApi, signupApi } from "../../redux/reduxActions/authActions";
+import { getAllInterestsApi, getAllLanguagesApi, signupApi } from "../../redux/reduxActions/authActions";
 import { Header, Loader } from "../../components";
 import { ApiError, ApiSuccessResponse } from "../../utils/helperFunctions";
 
 const Register: React.FC = () => {
 
-    const [allAvailInterests, getAllAvailInterests] = useState([])
+    const [allAvailInterests, setAllAvailInterests] = useState([])
+    const [allLanguages, setAllLanguages] = useState([])
 
     const [loading, setLoading] = useState<boolean>(false);
     const [userName, setUserName] = useState<string>("");
@@ -26,15 +27,25 @@ const Register: React.FC = () => {
     const [gender, setGender] = useState<string>("");
     const [profession, setProfession] = useState<string>("");
     const [interests, setInterests] = useState<string[]>([]);
+    const [preferredLanguages, setPreferredLanguagess] = useState<string[]>([]);
     const [about, setAbout] = useState<string>("");
 
     useEffect(() => {
         _getAllInterests()
+        _getAllLanguages()
     }, [])
 
     const _getAllInterests = () => {
         getAllInterestsApi().then((res: any) => {
-            getAllAvailInterests(res?.data)
+            setAllAvailInterests(res?.data)
+        }).catch((error) => {
+            notifyError(ApiError(error))
+        })
+    }
+
+    const _getAllLanguages = () => {
+        getAllLanguagesApi().then((res: any) => {
+            setAllLanguages(res?.data)
         }).catch((error) => {
             notifyError(ApiError(error))
         })
@@ -113,9 +124,13 @@ const Register: React.FC = () => {
             gender: gender.trim(),
             profession: profession.trim(),
             interests,
+            preferredLanguages,
             about: about.trim(),
         };
 
+        console.log(_apiData, "_apiData_apiData_apiData");
+
+        // return;
         signupApi(_apiData)
             .then((res) => {
                 setLoading(false);
@@ -135,122 +150,223 @@ const Register: React.FC = () => {
         );
     };
 
+    const handlePrefLangChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value, checked } = e.target;
+        setPreferredLanguagess((prevPrefLang) =>
+            checked ? [...prevPrefLang, value] : prevPrefLang.filter((lang) => lang !== value)
+        );
+    };
+
     return (
         <div className="register-container">
             <Header title={"Register"} />
             <form className="register-form" onSubmit={_checkValidations}>
                 <div className="input-group">
-                    <label htmlFor="username">Username</label>
-                    <input
-                        type="text"
-                        id="username"
-                        placeholder="Enter your username"
-                        value={userName}
-                        onChange={(e) => setUserName(e.target.value)}
-                    />
+                    <fieldset className="address-fieldset">
+                        <label htmlFor="username">Username</label>
+                        <input
+                            type="text"
+                            id="username"
+                            placeholder="Enter your username"
+                            value={userName}
+                            onChange={(e) => setUserName(e.target.value)}
+                        />
+                    </fieldset>
 
-                    <label htmlFor="name">Name</label>
-                    <input
-                        type="text"
-                        id="name"
-                        placeholder="Enter your name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
+                    <fieldset className="address-fieldset">
+                        <label htmlFor="name">Name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Enter your name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                    </fieldset>
 
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="Enter your email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
+                    <fieldset className="address-fieldset">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </fieldset>
 
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Enter your password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                    <fieldset className="address-fieldset">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </fieldset>
 
-                    <label htmlFor="phoneNumber">Phone Number</label>
-                    <input
-                        type="tel"
-                        id="phoneNumber"
-                        placeholder="Enter your phone number"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                    />
+                    <fieldset className="address-fieldset">
+                        <label htmlFor="phoneNumber">Phone Number</label>
+                        <input
+                            type="tel"
+                            id="phoneNumber"
+                            placeholder="Enter your phone number"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                        />
+                    </fieldset>
 
-                    <label htmlFor="dob">Date of Birth</label>
-                    <input
-                        type="date"
-                        id="dob"
-                        value={dob}
-                        onChange={(e) => setDob(e.target.value)}
-                    />
+                    <fieldset className="address-fieldset">
+                        <label htmlFor="dob">Date of Birth</label>
+                        <input
+                            type="date"
+                            id="dob"
+                            value={dob}
+                            onChange={(e) => setDob(e.target.value)}
+                        />
+                    </fieldset>
 
-                    <label htmlFor="age">Age</label>
-                    <input
-                        type="number"
-                        id="age"
-                        placeholder="Enter your age"
-                        value={age}
-                        onChange={(e) => setAge(e.target.value)}
-                    />
+                    <fieldset className="address-fieldset">
+                        <label htmlFor="age">Age</label>
+                        <input
+                            type="number"
+                            id="age"
+                            placeholder="Enter your age"
+                            value={age}
+                            onChange={(e) => setAge(e.target.value)}
+                        />
+                    </fieldset>
 
-                    <label htmlFor="gender">Gender</label>
-                    <select
-                        id="gender"
-                        value={gender}
-                        onChange={(e) => setGender(e.target.value)}
-                    >
-                        <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                    </select>
+                    <fieldset className="address-fieldset">
+                        <label htmlFor="gender">Gender</label>
+                        <select
+                            id="gender"
+                            value={gender}
+                            onChange={(e) => setGender(e.target.value)}
+                        >
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </fieldset>
 
-                    <label htmlFor="profession">Profession</label>
-                    <input
-                        type="text"
-                        id="profession"
-                        placeholder="Enter your profession"
-                        value={profession}
-                        onChange={(e) => setProfession(e.target.value)}
-                    />
+                    <fieldset className="address-fieldset">
+                        <legend>Address</legend>
+                        <div className="address-line">
+                            <label htmlFor="city">City</label>
+                            <input
+                                type="text"
+                                id="city"
+                                name="city"
+                                placeholder="Enter your city"
+                            // value={location.city}
+                            // onChange={handleLocationChange}
+                            />
 
-                    <label htmlFor="profession">Interests</label>
-                    <div className="interests-fieldset">
-                        <div className="checkbox-container">
-
-                            {allAvailInterests.map((item: any) => {
-                                return (
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            value={item?.name}
-                                            checked={interests.includes(item?.name)}
-                                            onChange={handleInterestChange}
-                                        />
-                                        {item?.name}
-                                    </label>
-                                )
-                            })}
-                            {/* Add more interests as needed */}
+                            <label htmlFor="country">Country</label>
+                            <input
+                                type="text"
+                                id="country"
+                                name="country"
+                                placeholder="Enter your country"
+                            // value={location.country}
+                            // onChange={handleLocationChange}
+                            />
                         </div>
-                    </div>
 
-                    <label htmlFor="about">About You</label>
-                    <textarea
-                        id="about"
-                        placeholder="Tell us about yourself"
-                        value={about}
-                        onChange={(e) => setAbout(e.target.value)}
-                    ></textarea>
+
+                        <div className="address-line">
+                            <label htmlFor="state">State</label>
+                            <input
+                                type="text"
+                                id="state"
+                                name="state"
+                                placeholder="Enter your state"
+                            // value={location.state}
+                            // onChange={handleLocationChange}
+                            />
+
+                            <label htmlFor="postalCode">Postal Code</label>
+                            <input
+                                type="text"
+                                id="postalCode"
+                                name="postalCode"
+                                placeholder="Enter your postal code"
+                            // value={location.postalCode}
+                            // onChange={handleLocationChange}
+                            />
+                        </div>
+                    </fieldset>
+
+                    <fieldset className="address-fieldset">
+                        <label htmlFor="profession">Profession</label>
+                        <input
+                            type="text"
+                            id="profession"
+                            placeholder="Enter your profession"
+                            value={profession}
+                            onChange={(e) => setProfession(e.target.value)}
+                        />
+                    </fieldset>
+
+                    <fieldset className="address-fieldset">
+                        <label htmlFor="profession">Interests</label>
+                        <div className="interests-fieldset">
+                            <div className="checkbox-container">
+                                {allAvailInterests.map((item: any) => {
+                                    return (
+                                        <div className="box-container">
+                                            <label style={{ textTransform: 'capitalize', color: "black" }}>
+                                                <input
+                                                    type="checkbox"
+                                                    value={item?._id}
+                                                    checked={interests.includes(item?._id)}
+                                                    onChange={handleInterestChange}
+                                                />
+                                                {item?.name}
+                                            </label>
+                                        </div>
+                                    )
+                                })}
+                                {/* Add more interests as needed */}
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset className="address-fieldset">
+                        <label htmlFor="profession">Preferred Languages</label>
+                        <div className="interests-fieldset">
+                            <div className="checkbox-container">
+                                {allLanguages.map((item: any) => {
+                                    return (
+                                        <div className="box-container">
+                                            <label style={{ textTransform: 'capitalize', color: "black" }}>
+                                                <input
+                                                    type="checkbox"
+                                                    value={item?._id}
+                                                    checked={preferredLanguages.includes(item?._id)}
+                                                    onChange={handlePrefLangChange}
+                                                />
+                                                {item?.nativeName}
+                                            </label>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset className="address-fieldset">
+                        <label htmlFor="about">About You</label>
+                        <textarea
+                            id="about"
+                            placeholder="Tell us about yourself"
+                            value={about}
+                            onChange={(e) => setAbout(e.target.value)}
+                        ></textarea>
+                    </fieldset>
 
                     <button type="submit" className="btn btn-success">
                         Register
