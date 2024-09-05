@@ -98,6 +98,13 @@ const Profile = () => {
                                     </Col>
                                 </Form.Group>
 
+                                <Form.Group as={Row} controlId="formGender" className="mb-4">
+                                    <Form.Label column sm={3}>Address:</Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control type="text" value={userData?.location?.city + "," + userData?.location?.state + "," + userData?.location?.country} readOnly />
+                                    </Col>
+                                </Form.Group>
+
                                 <Form.Group as={Row} controlId="formProfession" className="mb-4">
                                     <Form.Label column sm={3}>Profession:</Form.Label>
                                     <Col sm={9}>
@@ -108,7 +115,14 @@ const Profile = () => {
                                 <Form.Group as={Row} controlId="formInterests" className="mb-4">
                                     <Form.Label column sm={3}>Interests:</Form.Label>
                                     <Col sm={9}>
-                                        <Form.Control type="text" value="Coding, Reading, Traveling" readOnly />
+                                        <Form.Control type="text" value={Array.isArray(userData?.interests) && userData?.interests.map(obj => obj?.name).join(', ') || ""} readOnly />
+                                    </Col>
+                                </Form.Group>
+
+                                <Form.Group as={Row} controlId="formInterests" className="mb-4">
+                                    <Form.Label column sm={3}>Preferred Languages:</Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control type="text" value={Array.isArray(userData?.preferredLanguages) && userData?.preferredLanguages.map(obj => obj?.name).join(', ') || ""} readOnly />
                                     </Col>
                                 </Form.Group>
 

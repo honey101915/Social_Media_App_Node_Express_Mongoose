@@ -112,12 +112,80 @@ const loginUser = async (req, res) => {
             return;
         }
 
-        // const { email, password } = req.body;
-        // if (!email || !password) {
-        //     return UniversalFunction.SendResponse(res, 404, CommonMessages.allFieldsAreMandatory)
-        // }
-        // const findUser = await userSchema.findOne({ email }).populate({ path: "interests" })
-        const findUser = await userSchema.findOne({ email })
+
+        // const findUser = await userSchema.findOne({ email }).populate([{
+        //     path: 'interests',
+        //     model: 'interests'
+        // }, {
+        //     path: 'preferredLanguages',
+        //     model: 'languages'
+        // }])
+
+        // var findUser = await userSchema.aggregate([
+        //     {
+        //         $match: { email }
+        //     },
+        //     {
+        //         $lookup: {
+        //             from: "interests",
+        //             localField: "interests",
+        //             foreignField: "_id",
+        //             as: "interests"
+        //         }
+        //     },
+        //     {
+        //         $lookup: {
+        //             from: "languages",
+        //             localField: "preferredLanguages",
+        //             foreignField: "_id",
+        //             as: "preferredLanguages"
+        //         }
+        //     }
+        // ])
+
+
+        let findUser = await userSchema.aggregate([
+            {
+                $match: { email }
+            },
+            {
+                $lookup: {
+                    from: "interests", // from which table
+                    let: { interests: "$interests" }, // this is local field
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: { $in: ["$_id", "$$interests"] }
+                            }
+                        },
+                        // {
+                        //     $project: { name: 1 } // if you want only name
+                        // }
+                    ],
+                    // localField: "interests",
+                    // foreignField: "_id",
+                    as: "interests"
+                }
+            },
+            // {
+            //     $unwind: {
+            //         path: "$interests", // inn case of single element to convert to object
+
+            //     }
+            // },
+
+            {
+                $lookup: {
+                    from: "languages",
+                    localField: "preferredLanguages",
+                    foreignField: "_id",
+                    as: "preferredLanguages"
+                }
+            }
+        ])
+
+        console.log(findUser, "findUserfindUserfindUserfindUser");
+        findUser = findUser[0]
         if (!findUser) {
             return UniversalFunction.SendResponse(res, 404, CommonMessages.userIsNotRegisteredWithUs)
         }

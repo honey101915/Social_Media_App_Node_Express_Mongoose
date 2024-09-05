@@ -31,6 +31,16 @@
         }
       }
     },
+    "/get-all-languages": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/update-profile": {
       "post": {
         "description": "",
