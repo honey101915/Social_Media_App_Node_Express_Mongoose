@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 
 const userSchema = require("../Models/userSchema");
 const languageSchema = require("../Models/languagesSchema")
+const collegesSchema = require("../Models/collegesSchema")
+const schoolSchema = require("../Models/schoolSchema")
 
 const UniversalFunction = require("../lib/UniversalFunction")
 const CommonMessages = require("../Constants/en")
@@ -230,7 +232,74 @@ const getAllLanguages = async (req, res) => {
     } catch (error) {
         return UniversalFunction.SendServerError(res, error)
     }
-
 }
 
-module.exports = { registerUser, loginUser, getAllLanguages }
+const getAllColleges = async (req, res) => {
+    try {
+        const { page = 1, limit = 10, search = "" } = req.query;
+
+        const pageNumber = parseInt(page);
+        const limitNumber = parseInt(limit);
+        let filter = {}
+        if (search) {
+            filter.university = {
+                $regex: search,
+                $options: 'i'
+            }
+        }
+        const allColleges = await collegesSchema.find(filter)
+            .limit(limitNumber)
+            .skip((pageNumber - 1) * limitNumber)
+            .sort({ _id: -1 })
+        const totalRecords = await collegesSchema.countDocuments(filter)
+        let response = {
+            data: allColleges,
+            currentPage: page,
+            totalRecords,
+            limit,
+            totalPages: parseInt(totalRecords / limit, 10)
+        }
+        return UniversalFunction.SendResponse(res, 200, CommonMessages.success, response)
+    } catch (error) {
+        return UniversalFunction.SendServerError(res, error)
+    }
+}
+
+const getAllSchools = async (req, res) => {
+    try {
+        const { page = 1, limit = 10, search = "" } = req.query;
+
+        const pageNumber = parseInt(page);
+        const limitNumber = parseInt(limit);
+        let filter = {}
+        if (search) {
+            filter.name = {
+                $regex: search,
+                $options: 'i'
+            }
+        }
+        const allSchools = await schoolSchema.find(filter)
+            .limit(limitNumber)
+            .skip((pageNumber - 1) * limitNumber)
+            .sort({ _id: -1 })
+        const totalRecords = await schoolSchema.countDocuments(filter)
+        let response = {
+            data: allSchools,
+            currentPage: page,
+            totalRecords,
+            limit,
+            totalPages: parseInt(totalRecords / limit, 10)
+        }
+        return UniversalFunction.SendResponse(res, 200, CommonMessages.success, response)
+    } catch (error) {
+        return UniversalFunction.SendServerError(res, error)
+    }
+}
+
+module.exports = {
+    registerUser,
+    loginUser,
+    getAllLanguages,
+    getAllSchools,
+    getAllColleges
+}

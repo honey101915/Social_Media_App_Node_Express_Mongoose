@@ -10,11 +10,18 @@ import { notifyError, notifySuccess } from "../../utils/ToastConfig";
 import { getAllInterestsApi, getAllLanguagesApi, signupApi } from "../../redux/reduxActions/authActions";
 import { Header, Loader } from "../../components";
 import { ApiError, ApiSuccessResponse } from "../../utils/helperFunctions";
+import ListModal from "../../components/ListModal/ListModal";
 
 const Register: React.FC = () => {
 
     const [allAvailInterests, setAllAvailInterests] = useState([])
     const [allLanguages, setAllLanguages] = useState([])
+    const [openModal, setOpenModal] = useState<any>({
+        isOpen: false,
+        type: null,
+        heading: null,
+        subHeading: null,
+    })
 
     const [loading, setLoading] = useState<boolean>(false);
     const [userName, setUserName] = useState<string>("");
@@ -29,6 +36,8 @@ const Register: React.FC = () => {
     const [interests, setInterests] = useState<string[]>([]);
     const [preferredLanguages, setPreferredLanguagess] = useState<string[]>([]);
     const [about, setAbout] = useState<string>("");
+
+    const [selectedSchool, setSelectedSchool] = useState<any>(null)
 
     useEffect(() => {
         _getAllInterests()
@@ -156,6 +165,15 @@ const Register: React.FC = () => {
             checked ? [...prevPrefLang, value] : prevPrefLang.filter((lang) => lang !== value)
         );
     };
+
+    const _openSchoolModal = () => {
+        setOpenModal({
+            isOpen: true,
+            type: "_SCHOOL",
+            heading: "Select your school",
+            subHeading: "School List",
+        })
+    }
 
     return (
         <div className="register-container">
@@ -312,6 +330,18 @@ const Register: React.FC = () => {
                     </fieldset>
 
                     <fieldset className="address-fieldset">
+                        <label htmlFor="School">School</label>
+                        <input
+                            type="text"
+                            id="School"
+                            placeholder="Select your school"
+                            value={selectedSchool?.name || ""}
+                            readOnly
+                            onClick={_openSchoolModal}
+                        />
+                    </fieldset>
+
+                    <fieldset className="address-fieldset">
                         <label htmlFor="profession">Interests</label>
                         <div className="interests-fieldset">
                             <div className="checkbox-container">
@@ -380,6 +410,28 @@ const Register: React.FC = () => {
                 </Link>
             </div>
             {loading && <Loader />}
+
+            {openModal?.isOpen &&
+                <ListModal
+                    payload={openModal}
+                    handleContinue={(_cb: any) => {
+                        setSelectedSchool(_cb)
+                        setOpenModal({
+                            isOpen: false,
+                            type: null,
+                            heading: null,
+                            subHeading: null,
+                        })
+                    }}
+                    handleClose={() => {
+                        setOpenModal({
+                            isOpen: false,
+                            type: null,
+                            heading: null,
+                            subHeading: null,
+                        })
+                    }}
+                />}
         </div>
     );
 };

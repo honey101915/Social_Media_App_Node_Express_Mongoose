@@ -13,7 +13,7 @@ h3 {
     text-align: center;
     color: #333;
     margin-bottom: 2rem;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
 }
 
 .register-form {
@@ -29,7 +29,7 @@ h3 {
 }
 
 label {
-    font-size: 1rem;
+    font-size: 0.8rem;
     color: #555;
     margin-bottom: 0.5rem;
 }
@@ -40,7 +40,7 @@ textarea {
     padding: 0.8rem 1rem;
     border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 1rem;
+    font-size: 0.8rem;
     color: #333;
     transition: border-color 0.3s ease;
     box-sizing: border-box;
@@ -64,7 +64,7 @@ textarea {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 1.5rem;
-    background-color: #e5e6f0;
+    background-color: #f1ecec;
 }
 
 .interests-fieldset legend,
@@ -72,7 +72,7 @@ textarea {
     font-weight: bold;
     color: #333;
     padding: 0 0.5rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-bottom: 1rem;
     border-bottom: 2px solid #ddd;
 }
@@ -83,7 +83,7 @@ textarea {
     align-items: center;
     margin-bottom: 0.75rem;
     font-size: 1rem;
-    color: #555;
+    color: #000000;
     cursor: pointer;
 }
 
@@ -105,7 +105,7 @@ textarea {
     border: none;
     border-radius: 5px;
     color: #fff;
-    font-size: 1rem;
+    font-size: 0.8rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -137,7 +137,7 @@ textarea {
 }
 
 .box-container {
-    background-color: #e0f7fa;
+    background-color: #ebf8fa;
     border-radius: 8px;
     padding: 10px 16px;
     display: flex;
