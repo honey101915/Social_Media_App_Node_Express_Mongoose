@@ -169,6 +169,60 @@ const loginUser = async (req, res) => {
                     as: "interests"
                 }
             },
+            {
+                $lookup: {
+                    from: "schools",
+                    let: { school: "$school" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $eq: ["$_id", "$$school"]
+                                }
+                            }
+                        }
+                    ],
+                    as: "school",
+                },
+            },
+            {
+                $unwind: {
+                    path: "$school",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            //// With Pipeline
+            {
+                $lookup: {
+                    from: "colleges",
+                    let: { college: "$college" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $eq: ["$_id", "$$college"]
+                                }
+                            }
+                        }
+                    ],
+                    as: "college"
+                }
+            },
+            {
+                $unwind: {
+                    path: "$college",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            //// With Lookup
+            // {
+            //     $lookup: {
+            //         from: "colleges",
+            //         localField: "college",
+            //         foreignField: "_id",
+            //         as: "college"
+            //     }
+            // },
             // {
             //     $unwind: {
             //         path: "$interests", // inn case of single element to convert to object
@@ -183,7 +237,8 @@ const loginUser = async (req, res) => {
                     foreignField: "_id",
                     as: "preferredLanguages"
                 }
-            }
+            },
+
         ])
 
         console.log(findUser, "findUserfindUserfindUserfindUser");

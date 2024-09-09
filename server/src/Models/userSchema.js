@@ -104,7 +104,17 @@ const userSchema = new mongoose.Schema(
             type: ObjectId,
             default: [],
             ref: "languages"
-        }]
+        }],
+        college: {
+            type: ObjectId,
+            default: null,
+            ref: "colleges"
+        },
+        school: {
+            type: ObjectId,
+            default: null,
+            ref: "schools"
+        }
     },
     {
         timestamps: true, versionKey: false

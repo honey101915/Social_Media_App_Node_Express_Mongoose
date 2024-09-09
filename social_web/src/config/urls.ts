@@ -12,4 +12,5 @@ export const ADD_NEW_POST = getApiUrl("/api/add-new-post")
 export const LOG_OUT = getApiUrl("/api/logout")
 export const GET_ALL_POSTS = getApiUrl("/api/get-all-posts")
 export const GET_ALL_SCHOOLS = getApiUrl("/api/get-all-schools")
+export const GET_ALL_COLLEGES = getApiUrl("/api/get-all-colleges")
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './ListModal.css'; // Import CSS file for styling
 import { FaSearch, FaTimes } from 'react-icons/fa'; // Import search and close icons
-import { getAllSchoolsApi } from '../../redux/reduxActions/homeActions';
+import { getAllCollegeApi, getAllSchoolsApi } from '../../redux/reduxActions/homeActions';
 import { notifyError } from '../../utils/ToastConfig';
 import { ApiError } from '../../utils/helperFunctions';
 
@@ -14,16 +14,24 @@ const ListModal = ({ payload, handleContinue, handleClose }) => {
     const [loading, setLoading] = useState(true); // New state for loading
 
     useEffect(() => {
-        _getAllSchools();
+        _getAllData();
     }, [currentPage]);
 
     useEffect(() => {
         if (currentPage === 1) {
-            _getAllSchools();
+            _getAllData();
         } else {
             setCurrentPage(1);
         }
     }, [searchTerm]);
+
+    const _getAllData = () => {
+        if (payload?.type === "_SCHOOL") {
+            _getAllSchools()
+        } else {
+            _getAllCollege()
+        }
+    };
 
     const _getAllSchools = () => {
         setLoading(true); // Show loader
@@ -39,7 +47,25 @@ const ListModal = ({ payload, handleContinue, handleClose }) => {
             .finally(() => {
                 setLoading(false); // Hide loader
             });
-    };
+    }
+
+
+    const _getAllCollege = () => {
+        setLoading(true); // Show loader
+        let _query = `?page=${currentPage}&search=${searchTerm}`;
+        getAllCollegeApi(_query)
+            .then((res) => {
+                setAllItems(res?.data?.data || []);
+                setTotalPages(res?.data?.totalPages);
+            })
+            .catch((error) => {
+                notifyError(ApiError(error));
+            })
+            .finally(() => {
+                setLoading(false); // Hide loader
+            });
+    }
+
 
     const handleNext = () => {
         if (currentPage === totalPages) return;
@@ -97,7 +123,7 @@ const ListModal = ({ payload, handleContinue, handleClose }) => {
                                         className={`modal-list-item ${selectedItem === item ? 'selected' : ''}`}
                                         onClick={() => handleSelect(item)}
                                     >
-                                        {(currentPage === 1 ? (index + 1) : String(10 * (currentPage - 1) + index + 1)) + ". " + item?.name}
+                                        {(currentPage === 1 ? (index + 1) : String(10 * (currentPage - 1) + index + 1)) + ". " + (item?.name || item?.college || "")}
                                     </li>
                                 ))
                             ) : (

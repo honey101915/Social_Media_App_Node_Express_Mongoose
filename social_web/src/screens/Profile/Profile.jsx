@@ -105,6 +105,20 @@ const Profile = () => {
                                     </Col>
                                 </Form.Group>
 
+                                <Form.Group as={Row} controlId="formGender" className="mb-4">
+                                    <Form.Label column sm={3}>School:</Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control type="text" value={userData?.school?.name || ""} readOnly />
+                                    </Col>
+                                </Form.Group>
+
+                                <Form.Group as={Row} controlId="formGender" className="mb-4">
+                                    <Form.Label column sm={3}>College/University:</Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control type="text" value={userData?.college?.college || ""} readOnly />
+                                    </Col>
+                                </Form.Group>
+
                                 <Form.Group as={Row} controlId="formProfession" className="mb-4">
                                     <Form.Label column sm={3}>Profession:</Form.Label>
                                     <Col sm={9}>

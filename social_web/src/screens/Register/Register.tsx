@@ -38,6 +38,7 @@ const Register: React.FC = () => {
     const [about, setAbout] = useState<string>("");
 
     const [selectedSchool, setSelectedSchool] = useState<any>(null)
+    const [selectedCollege, setSelectedCollege] = useState<any>(null)
 
     useEffect(() => {
         _getAllInterests()
@@ -172,6 +173,15 @@ const Register: React.FC = () => {
             type: "_SCHOOL",
             heading: "Select your school",
             subHeading: "School List",
+        })
+    }
+
+    const _openCollegeModal = () => {
+        setOpenModal({
+            isOpen: true,
+            type: "_COLLEGE",
+            heading: "Select your University/College",
+            subHeading: "University/College List",
         })
     }
 
@@ -342,6 +352,18 @@ const Register: React.FC = () => {
                     </fieldset>
 
                     <fieldset className="address-fieldset">
+                        <label htmlFor="University/College">College/University</label>
+                        <input
+                            type="text"
+                            id="School"
+                            placeholder="Select your University/College"
+                            value={selectedCollege?.college || ""}
+                            readOnly
+                            onClick={_openCollegeModal}
+                        />
+                    </fieldset>
+
+                    <fieldset className="address-fieldset">
                         <label htmlFor="profession">Interests</label>
                         <div className="interests-fieldset">
                             <div className="checkbox-container">
@@ -415,7 +437,13 @@ const Register: React.FC = () => {
                 <ListModal
                     payload={openModal}
                     handleContinue={(_cb: any) => {
-                        setSelectedSchool(_cb)
+
+                        if (openModal?.type === "_COLLEGE") {
+                            setSelectedCollege(_cb)
+                        } else {
+                            setSelectedSchool(_cb)
+                        }
+
                         setOpenModal({
                             isOpen: false,
                             type: null,
