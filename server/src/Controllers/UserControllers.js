@@ -10,27 +10,66 @@ const UniversalFunction = require("../lib/UniversalFunction")
 const updateProfile = async (req, res) => {
     try {
         var currentUser = req.user;
-        const { email, userName } = req.body;
-        if (email || userName) {
-            return UniversalFunction.SendResponse(res, 401, "You can't update email and username")
-        }
-        const findUser = await userSchema.findById(currentUser?._id)
 
-        if (findUser?.accessToken === null) {
-            return UniversalFunction.SendResponse(res, 401, "Unauthorized user")
+
+
+        var name = String(req.body?.name || "");
+        var phoneNumber = String(req.body?.phoneNumber || "");
+        var dob = String(req.body?.dob || "");
+        var age = String(req.body?.age || "");
+        var gender = String(req.body?.gender || "");
+        var profession = String(req.body?.profession || "");
+        var about = String(req.body?.about || "");
+
+        const _newUser = {
+            name,
+            phoneNumber,
+            dob,
+            age,
+            gender,
+            profession,
+            about
         }
 
-        var updatedUser = {
-            ...currentUser,
-            ...req.body
+        if (name.trim() === '') {
+            UniversalFunction.SendResponse(res, 404, "Name is required")
+            return;
+        } else if (phoneNumber.trim() === '' || phoneNumber.trim().length < 8) {
+            UniversalFunction.SendResponse(res, 404, "PhoneNumber is required of minimum 8 digits")
+            return;
+        } else if (dob.trim() === '') {
+            UniversalFunction.SendResponse(res, 404, "Date of birth is required")
+            return;
+        } else if (age.trim() === '') {
+            UniversalFunction.SendResponse(res, 404, "Age is required")
+            return;
+        } else if (gender.trim() === '') {
+            UniversalFunction.SendResponse(res, 404, "Gender is required")
+            return;
+        } else if (profession.trim() === '') {
+            UniversalFunction.SendResponse(res, 404, "Profession is required")
+            return;
+        } else if (about.trim() === '') {
+            UniversalFunction.SendResponse(res, 404, "About is required")
+            return;
         }
+
+
+        var updatedUser = { ..._newUser }
         await userSchema.findByIdAndUpdate(
-            req.user._id,
+            currentUser._id,
             updatedUser,
             { new: true }
         )
-        return UniversalFunction.SendResponse(res, 200, CommonMessages.profileUpdatedSuccessfully)
+
+        const _updatedUser = await userSchema.findById(currentUser)
+        console.log(_updatedUser, "ssss API FULL");
+        var _data = res
+        _data.userData = _updatedUser
+        return UniversalFunction.SendResponse(_data, 200, CommonMessages.profileUpdatedSuccessfully)
     } catch (error) {
+        console.log(error, "API ERROR");
+
         return UniversalFunction.SendServerError(res, error)
     }
 }

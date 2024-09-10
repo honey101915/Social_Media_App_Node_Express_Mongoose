@@ -93,7 +93,7 @@ const userSchema = new mongoose.Schema(
             ref: "interests"
         }],
         dob: {
-            type: Date,
+            type: String,
             default: null
         },
         age: {

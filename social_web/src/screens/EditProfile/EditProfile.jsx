@@ -4,6 +4,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './EditProfile.css'; // Import custom CSS file
 import { Header } from '../../components';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
+import { updateProfileApi } from '../../redux/reduxActions/homeActions';
+import { notifyError } from '../../utils/ToastConfig';
+import { ApiError } from '../../utils/helperFunctions';
 
 const interestsList = [
     'Reading', 'Traveling', 'Cooking', 'Gaming', 'Music',
@@ -17,15 +21,15 @@ const EditProfile = () => {
 
     // State to manage form fields
     const [profileData, setProfileData] = useState({
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        phoneNumber: '+1234567890',
-        dob: '1990-01-01',
-        age: '34',
-        gender: 'Male',
-        profession: 'Software Engineer',
-        interests: ['Coding'], // Default selected interests
-        about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        name: userData?.name || "",
+        email: userData?.email || "",
+        phoneNumber: userData?.phoneNumber || "",
+        dob: userData?.dob || "",
+        age: userData?.age || "",
+        gender: userData?.gender || "",
+        profession: userData?.profession || "",
+        interests: ['Coding'],
+        about: userData?.about || "",
     });
 
     // Handle input change
@@ -52,6 +56,25 @@ const EditProfile = () => {
         console.log('Updated Profile Data:', profileData);
     };
 
+    const _onSaveChanges = () => {
+        const _apiData = {
+            name: profileData?.name.trim(),
+            phoneNumber: profileData?.phoneNumber,
+            dob: profileData?.dob.trim(),
+            age: profileData?.age,
+            gender: profileData?.gender.trim(),
+            profession: profileData?.profession.trim(),
+            about: profileData?.about.trim(),
+        };
+        console.log(_apiData, "updateProfileApi _apiData");
+
+        updateProfileApi(_apiData).then((res) => {
+            console.log(res, "updateProfileApi res");
+        }).catch((error) => {
+            notifyError(ApiError(error))
+        })
+    }
+
     return (
         <Container fluid className="edit-profile-page">
             <Header title="Edit Profile" />
@@ -60,13 +83,27 @@ const EditProfile = () => {
                     <Card className="profile-card">
                         <Card.Body>
                             <Form onSubmit={handleSubmit}>
+
+                                <Form.Group as={Row} controlId="formName" className="mb-4">
+                                    <Form.Label column sm={3}>Username:</Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control
+                                            type="text"
+                                            name="name"
+                                            value={userData?.userName}
+                                            onChange={handleChange}
+                                            readOnly
+                                        />
+                                    </Col>
+                                </Form.Group>
+
                                 <Form.Group as={Row} controlId="formName" className="mb-4">
                                     <Form.Label column sm={3}>Name:</Form.Label>
                                     <Col sm={9}>
                                         <Form.Control
                                             type="text"
                                             name="name"
-                                            value={userData?.name}
+                                            value={profileData?.name}
                                             onChange={handleChange}
                                         />
                                     </Col>
@@ -78,8 +115,9 @@ const EditProfile = () => {
                                         <Form.Control
                                             type="email"
                                             name="email"
-                                            value={userData?.email}
+                                            value={profileData?.email}
                                             onChange={handleChange}
+                                            readOnly
                                         />
                                     </Col>
                                 </Form.Group>
@@ -90,7 +128,7 @@ const EditProfile = () => {
                                         <Form.Control
                                             type="number"
                                             name="phoneNumber"
-                                            value={userData?.phoneNumber}
+                                            value={profileData?.phoneNumber}
                                             onChange={handleChange}
                                         />
                                     </Col>
@@ -102,7 +140,7 @@ const EditProfile = () => {
                                         <Form.Control
                                             type="date"
                                             name="dob"
-                                            value={userData?.dob}
+                                            value={moment(profileData?.dob).format("DD/MM/YYYY")}
                                             onChange={handleChange}
                                         />
                                     </Col>
@@ -114,7 +152,7 @@ const EditProfile = () => {
                                         <Form.Control
                                             type="text"
                                             name="age"
-                                            value={userData?.age}
+                                            value={profileData?.age}
                                             onChange={handleChange}
                                         />
                                     </Col>
@@ -126,7 +164,7 @@ const EditProfile = () => {
                                         <Form.Control
                                             type="text"
                                             name="gender"
-                                            value={userData?.gender}
+                                            value={profileData?.gender}
                                             onChange={handleChange}
                                         />
                                     </Col>
@@ -138,7 +176,7 @@ const EditProfile = () => {
                                         <Form.Control
                                             type="text"
                                             name="profession"
-                                            value={userData?.profession}
+                                            value={profileData?.profession}
                                             onChange={handleChange}
                                         />
                                     </Col>
@@ -169,13 +207,13 @@ const EditProfile = () => {
                                             as="textarea"
                                             rows={4}
                                             name="about"
-                                            value={userData?.about}
+                                            value={profileData?.about}
                                             onChange={handleChange}
                                         />
                                     </Col>
                                 </Form.Group>
 
-                                <Button variant="primary" type="submit" className="mt-3">
+                                <Button variant="primary" type="submit" className="mt-3" onClick={_onSaveChanges}>
                                     Save Changes
                                 </Button>
                             </Form>

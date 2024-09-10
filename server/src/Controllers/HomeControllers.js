@@ -203,11 +203,13 @@ const getUserDetails = async (req, res) => {
     }
 }
 
+
+
 module.exports = {
     getAllInterests,
     addPost,
     likePost,
     getAllPosts,
     dislikePost,
-    getUserDetails
+    getUserDetails,
 }

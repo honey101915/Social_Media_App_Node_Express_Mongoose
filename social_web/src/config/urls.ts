@@ -13,4 +13,4 @@ export const LOG_OUT = getApiUrl("/api/logout")
 export const GET_ALL_POSTS = getApiUrl("/api/get-all-posts")
 export const GET_ALL_SCHOOLS = getApiUrl("/api/get-all-schools")
 export const GET_ALL_COLLEGES = getApiUrl("/api/get-all-colleges")
-
+export const UPDATE_PROFILE = getApiUrl("/api/update-profile")
