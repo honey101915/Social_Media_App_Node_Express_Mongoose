@@ -103,21 +103,6 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "example": "any"
-                },
-                "userName": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
