@@ -1,10 +1,11 @@
-const express = require("express");
-const EndPoints = require("../Config/EndPoints");
-const UserControllers = require("../Controllers/UserControllers")
-const validateToken = require("../Middlewares/VerifyTokenHandler")
+import express from "express";
+// const EndPoints = require("../Config/EndPoints");
+import UserControllers from "../Controllers/UserControllers"
+import validateToken from "../Middlewares/VerifyTokenHandler"
 
-const fs = require('fs');
-const path = require('path');
+import fs from "fs"
+import path from 'path'
+import multer from 'multer'
 
 const userRouter = express.Router();
 
@@ -20,13 +21,13 @@ const uploadDirectory = path.resolve(__dirname, '../Files');
 //     });
 // }
 
-const multer = require('multer')
+
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: function (req: any, file: any, cb: any) {
         cb(null, uploadDirectory)
     },
-    filename: function (req, file, cb) {
+    filename: function (req: any, file: any, cb: any) {
         // console.log(file, "filefile")
         const uniqueSuffix = Date.now() + '-' + file?.fieldname
         cb(null, uniqueSuffix)
@@ -41,4 +42,4 @@ userRouter.route("/logout").get(validateToken, UserControllers.logout)
 userRouter.route("/select-interests").post(validateToken, UserControllers.addInterests)
 userRouter.route("/upload-profile-pic").post(validateToken, upload.single('fileName'), UserControllers.uploadProfilePic)
 
-module.exports = userRouter;
+export default userRouter;

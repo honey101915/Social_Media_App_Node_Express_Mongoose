@@ -1,13 +1,13 @@
-const jwt = require("jsonwebtoken")
+import jwt from "jsonwebtoken"
 
-const validateToken = async (req, res, next) => {
+const validateToken = async (req: any, res: any, next: any) => {
     try {
         // const authToken = req.headers.authorization || req.headers.Authorization
         const authToken = req.headers.authorization
         if (authToken) {
             var token = authToken.split(" ")[1]
 
-            jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+            jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string, (err: any, decoded: any) => {
                 if (err) {
                     res.status(401).send({ message: "Unauthorized user" })
                 }
@@ -21,4 +21,4 @@ const validateToken = async (req, res, next) => {
         res.status(401).send({ message: "Unauthorized erroruser" })
     }
 }
-module.exports = validateToken
+export default validateToken

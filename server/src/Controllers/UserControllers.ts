@@ -1,13 +1,16 @@
 
 
-const userSchema = require("../Models/userSchema")
-const mediaFileSchema = require("../Models/mediaFileSchema")
-const interestSchema = require("../Models/interestSchema")
+// Importing schemas using ES6 modules
+import userSchema from '../Models/userSchema';
+import mediaFileSchema from '../Models/mediaFileSchema';
+import interestSchema from '../Models/interestSchema';
 
-const CommonMessages = require("../Constants/en")
-const UniversalFunction = require("../lib/UniversalFunction")
+// Importing utility functions and constants
+import CommonMessages from '../Constants/en';
+import UniversalFunction from '../lib/UniversalFunction';
 
-const updateProfile = async (req, res) => {
+
+const updateProfile = async (req: any, res: any) => {
     try {
         var currentUser = req.user;
 
@@ -74,7 +77,7 @@ const updateProfile = async (req, res) => {
     }
 }
 
-const deleteProfile = async (req, res) => {
+const deleteProfile = async (req: any, res: any) => {
     try {
         var currentUser = req.user
 
@@ -90,7 +93,7 @@ const deleteProfile = async (req, res) => {
     }
 }
 
-const logout = async (req, res) => {
+const logout = async (req: any, res: any) => {
     try {
         var currentUser = req.user
         const findUser = await userSchema.findById(currentUser._id)
@@ -107,18 +110,18 @@ const logout = async (req, res) => {
     }
 }
 
-const addInterests = async (req, res) => {
+const addInterests = async (req: any, res: any) => {
     try {
         var currentUser = req.user
         const { interests } = req.body
-        const findUser = await userSchema.findById(currentUser?._id)
+        const findUser: any = await userSchema.findById(currentUser?._id)
         if (!interests) {
             return UniversalFunction.SendResponse(res, 404, "Interests is required")
         }
         if (findUser) {
             await userSchema.findOneAndUpdate(findUser?._id, { interests: interests })
-            const getUpdatedUser = await userSchema.findById(findUser?._id)
-            return UniversalFunction.SendResponse(res, 200, getUpdatedUser, "Interests updated successfully")
+            const getUpdatedUser: any = await userSchema.findById(findUser?._id)
+            return UniversalFunction.SendResponse(res, 200, getUpdatedUser, "Interests updated successfully" as any)
         } else {
             return UniversalFunction.SendResponse(res, 404, "Unauthorised")
         }
@@ -127,18 +130,18 @@ const addInterests = async (req, res) => {
     }
 }
 
-const uploadProfilePic = async (req, res) => {
+const uploadProfilePic = async (req: any, res: any) => {
     try {
         console.log(req.file, "ssssss")
         console.log(req.protocol, "protocol")
         console.log(req.get('host'), "req.get('host')")
         var currentUser = req.user
 
-        var findUser = await userSchema.findById(currentUser?._id)
+        var findUser: any = await userSchema.findById(currentUser?._id)
         const fileUrl = `${req.protocol}://${req.get('host')}/${req.file.path}`;
         findUser.profileImage = fileUrl
 
-        const updatedUser = await userSchema.findByIdAndUpdate(
+        const updatedUser: any = await userSchema.findByIdAndUpdate(
             currentUser?._id,
             findUser,
             { new: true }
@@ -162,7 +165,7 @@ const uploadProfilePic = async (req, res) => {
     }
 }
 
-module.exports = {
+export default {
     updateProfile,
     deleteProfile,
     logout,

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     success: "Success",
     somethingWentWrong: "Something went wrong. Internal server error",
     allFieldsAreMandatory: "All fields are mandatory.",

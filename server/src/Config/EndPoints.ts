@@ -1,6 +1,6 @@
 // const AUTH = "/auth"
 
-module.exports = {
+export default {
     BASE: "/api",
     REGISTER_USER: "/auth/register-user",
     LOGIN: "/auth/login",

@@ -58,6 +58,10 @@ const APP_ROUTES = [
     {
         path: "/home/addPost",
         element: <ScreenName.AddPost />,
+    },
+    {
+        path: "/OtpScreen",
+        element: <ScreenName.OtpScreen />,
     }
 ];
 

@@ -18,6 +18,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('honey@gmail.com');
     const [password, setPassword] = useState('123456');
+    const [loginWithOtp, setLoginWithOtp] = useState(false)
 
 
     const _checkValidations = (e) => {
@@ -26,6 +27,8 @@ const Login = () => {
         if (!isValidEmail(email)) {
             notifyError("Enter valid email")
             return;
+        } else if (loginWithOtp) {
+            navigate('/OtpScreen')
         } else if (!checkPasswordValidations(password, "Password must be of 6 characters.")) {
             return;
         } else {
@@ -70,19 +73,31 @@ const Login = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    <label htmlFor="Password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        // autoComplete="off"
-                        placeholder="Enter your Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+
+                    {
+                        !loginWithOtp &&
+                        <>
+                            <label htmlFor="Password">Password:</label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                // autoComplete="off"
+                                placeholder="Enter your Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </>
+                    }
+
                     <button type="submit" className="btn btn-primary">
-                        Login
+                        {!loginWithOtp ? "Login" : "Send OTP"}
                     </button>
+
+                    <p className="login-with-otp-text" onClick={() => setLoginWithOtp(!loginWithOtp)}>
+                        {loginWithOtp ? "Login with password" : "Login with OTP"}
+                    </p>
+
                 </div>
             </form>
             <div className="login">

@@ -1,7 +1,7 @@
-const express = require("express")
-const EndPoints = require("../Config/EndPoints");
-const HomeControllers = require("../Controllers/HomeControllers");
-const validateToken = require("../Middlewares/VerifyTokenHandler");
+import express from "express";
+// const EndPoints = require("../Config/EndPoints");
+import HomeControllers from "../Controllers/HomeControllers"
+import validateToken from "../Middlewares/VerifyTokenHandler"
 
 const homeRouter = express.Router()
 
@@ -12,4 +12,4 @@ homeRouter.route("/dislike-post").post(validateToken, HomeControllers.dislikePos
 homeRouter.route("/get-all-posts").get(validateToken, HomeControllers.getAllPosts)
 homeRouter.route("/get-user-detail").get(validateToken, HomeControllers.getUserDetails)
 
-module.exports = homeRouter
+export default homeRouter

@@ -1,10 +1,9 @@
-
-const swaggerAutogen = require('swagger-autogen')();
+import swaggerAutogen from 'swagger-autogen';
 
 const doc = {
     info: {
         title: 'API Documentation',
-        description: 'Description'
+        description: 'Description',
     },
     host: 'localhost:8080/api',
     request: {
@@ -13,10 +12,11 @@ const doc = {
 };
 
 const outputFile = './swagger-output.json';
-const routes = ['./src/Routes/index.js'];
-// const routes = ['./server.js'];
+const routes = ['./src/Routes/index.js']; // Ensure this path is correct for your TypeScript setup
 
 /* NOTE: If you are using the express Router, you must pass in the 'routes' only the 
 root file where the route starts, such as index.js, app.js, routes.js, etc ... */
 
-swaggerAutogen(outputFile, routes, doc);
+const swagger = swaggerAutogen(outputFile, routes, doc);
+
+export default swagger;

@@ -1,13 +1,14 @@
-const userSchema = require("../Models/userSchema")
-const interestSchema = require("../Models/interestSchema")
-const postSchema = require("../Models/postSchema")
-const likeSchema = require("../Models/likeSchema")
-const mediaFileSchema = require("../Models/mediaFileSchema")
+import userSchema from '../Models/userSchema';
+import interestSchema from '../Models/interestSchema';
+import postSchema from '../Models/postSchema';
+import likeSchema from '../Models/likeSchema';
+import mediaFileSchema from '../Models/mediaFileSchema';
 
-const UniversalFunction = require("../lib/UniversalFunction")
-const CommonMessages = require("../Constants/en")
+// Importing utility functions and constants
+import UniversalFunction from '../lib/UniversalFunction';
+import CommonMessages from '../Constants/en';
 
-const getAllInterests = async (req, res) => {
+const getAllInterests = async (req: any, res: any) => {
     try {
         const allInterests = await interestSchema.find();
         if (allInterests) {
@@ -20,7 +21,7 @@ const getAllInterests = async (req, res) => {
     }
 }
 
-const addPost = async (req, res) => {
+const addPost = async (req: any, res: any) => {
     try {
 
         var caption = String(req.body?.caption || "");
@@ -52,7 +53,7 @@ const addPost = async (req, res) => {
 
         const uploadedPost = await postSchema.create({ ...makePost })
 
-        return UniversalFunction.SendResponse(res, 200, uploadedPost, "Post uploaded successfully")
+        return UniversalFunction.SendResponse(res, 200, uploadedPost as any, "Post uploaded successfully" as any)
 
     } catch (error) {
         console.log(error, "errororororo");
@@ -60,13 +61,13 @@ const addPost = async (req, res) => {
     }
 }
 
-const likePost = async (req, res) => {
+const likePost = async (req: any, res: any) => {
     try {
         const { postId } = req.body
         const currentUser = req.user
         const _currentLoggedInUser = await userSchema.findById(currentUser?._id)
 
-        const getPostById = await postSchema.findOne({ _id: postId })
+        const getPostById: any = await postSchema.findOne({ _id: postId })
         if (!getPostById) {
             return UniversalFunction.SendResponse(res, 401, `Invalid post id or could'nt find post with the id ${postId}`)
         }
@@ -100,7 +101,7 @@ const likePost = async (req, res) => {
     }
 }
 
-const dislikePost = async (req, res) => {
+const dislikePost = async (req: any, res: any) => {
     try {
         const { postId } = req.body
         const currentUser = req.user
@@ -138,7 +139,7 @@ const dislikePost = async (req, res) => {
     }
 }
 
-const getAllPosts = async (req, res) => {
+const getAllPosts = async (req: any, res: any) => {
 
     try {
         if (req?.query?.type === "USER_DETAILS") {
@@ -182,7 +183,7 @@ const getAllPosts = async (req, res) => {
 
 }
 
-const getUserDetails = async (req, res) => {
+const getUserDetails = async (req: any, res: any) => {
     try {
         const userId = req.query._id;
         if (!userId) {
@@ -203,13 +204,11 @@ const getUserDetails = async (req, res) => {
     }
 }
 
-
-
-module.exports = {
+export default {
     getAllInterests,
     addPost,
     likePost,
-    getAllPosts,
     dislikePost,
-    getUserDetails,
+    getAllPosts,
+    getUserDetails
 }

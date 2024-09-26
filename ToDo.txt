@@ -1,1 +1,5 @@
 1. All aggregate staging, methods, query
+
+
+// "start": "node swagger.js & nodemon server.js",
+    // "test": "echo \"Error: no test specified\" && exit 1"
