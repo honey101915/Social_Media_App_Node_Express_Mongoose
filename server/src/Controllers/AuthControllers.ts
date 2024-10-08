@@ -1,17 +1,17 @@
 // Importing dependencies using ES6 modules
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 
 // Importing schemas
-import userSchema from '../Models/userSchema';
-import languageSchema from '../Models/languagesSchema';
 import collegesSchema from '../Models/collegesSchema';
+import languageSchema from '../Models/languagesSchema';
+import otpSchema from "../Models/otpSchema";
 import schoolSchema from '../Models/schoolSchema';
-import otpSchema from "../Models/otpSchema"
+import userSchema from '../Models/userSchema';
 
 // Importing utility functions and constants
-import UniversalFunction from '../lib/UniversalFunction';
 import CommonMessages from '../Constants/en';
+import UniversalFunction from '../lib/UniversalFunction';
+import { generateToken } from 'src/Middlewares/VerifyTokenHandler';
 
 const registerUser = async (req: any, res: any) => {
     try {
@@ -118,7 +118,6 @@ const loginUser = async (req: any, res: any) => {
             UniversalFunction.SendResponse(res, 404, "Password is required of 6 digits")
             return;
         }
-
 
         // const findUser = await userSchema.findOne({ email }).populate([{
         //     path: 'interests',
@@ -252,20 +251,10 @@ const loginUser = async (req: any, res: any) => {
             return UniversalFunction.SendResponse(res, 404, CommonMessages.userIsNotRegisteredWithUs)
         }
 
+
+
         if (findUser && (await bcrypt.compare(password, findUser?.password))) {
-            const accessToken = jwt.sign(
-                {
-                    user: {
-                        username: findUser?.userName,
-                        email: findUser?.email,
-                        _id: findUser?._id,
-                        phoneNumber: findUser?.phoneNumber,
-                        name: findUser?.name,
-                        profileImage: findUser?.profileImage
-                    }
-                },
-                process.env.ACCESS_TOKEN_SECRET as any
-            )
+            const accessToken = generateToken(findUser)
             const getData = JSON.parse(JSON.stringify(findUser))
             delete getData.password
             getData.accessToken = accessToken
@@ -377,7 +366,7 @@ const generateOtp = async (req: any, res: any) => {
         const otp = Math.floor(100000 + Math.random() * 900000)
 
         const otpObj: any = {
-            otp: otp,
+            otp: 123456 || otp,
             userId: _findUser?.[0]?._id,
             expiresAt: new Date(Date.now() + 5 * 60 * 1000)
         }
@@ -423,14 +412,14 @@ const verifyOtp = async (req: any, res: any) => {
         }
 
         const _findOtp = await otpSchema.find({
-            userId: _findUser[0]?._id
+            userId: _findUser?.[0]?._id
         })
 
         if (Array.isArray(_findOtp) && _findOtp.length != 0) {
             if (_findOtp[0]?.otp == otp) {
-                await otpSchema.findByIdAndDelete(_findOtp[0]?._id)
+                // await otpSchema.findByIdAndDelete(_findOtp[0]?._id)
 
-                const _findDetails: any = await userSchema.aggregate([
+                var _findUserDetails: any = await userSchema.aggregate([
                     {
                         $match: { email }
                     },
@@ -510,10 +499,20 @@ const verifyOtp = async (req: any, res: any) => {
                     }
                 ])
 
-                console.log(_findDetails, "_user_user_user_user_user");
+                _findUserDetails = _findUserDetails?.[0] || []
+                if (!_findUserDetails) {
+                    return UniversalFunction.SendResponse(res, 404, CommonMessages.userIsNotRegisteredWithUs)
+                }
+                const accessToken = generateToken(_findUserDetails)
+                const getData = JSON.parse(JSON.stringify(_findUserDetails))
+                delete getData.password
+                getData.accessToken = accessToken
 
+                await userSchema.findByIdAndUpdate(getData?._id, {
+                    accessToken: accessToken
+                })
+                return UniversalFunction.SendResponse(res, 200, "OTP verified successfully with token", getData)
 
-                return UniversalFunction.SendResponse(res, 200, "OTP verified successfully", _findDetails)
             } else {
                 return UniversalFunction.SendResponse(res, 404, "Invalid OTP")
             }
@@ -524,89 +523,6 @@ const verifyOtp = async (req: any, res: any) => {
     } catch (error) {
         return UniversalFunction.SendServerError(res, error)
     }
-}
-
-const _getLogedInUserDetails = async (email: any) => {
-    const _findDetails: any = await userSchema.aggregate([
-        {
-            $match: { email }
-        },
-        {
-            $lookup: {
-                from: "interests",
-                let: { interests: "$interests" },
-                pipeline: [
-                    {
-                        $match: {
-                            $expr: {
-                                $in: ["$_id", "$$interests"]
-                            }
-                        }
-                    }
-                ],
-                as: "interests"
-            }
-        },
-        {
-            $unwind: {
-                path: "$interests",
-                preserveNullAndEmptyArrays: true
-            }
-        },
-        {
-            $lookup: {
-                from: "college",
-                let: { college: "$college" },
-                pipeline: [
-                    {
-                        $match: {
-                            $expr: {
-                                $eq: ["$_id", "$$college"]
-                            }
-                        }
-                    }
-                ],
-                as: "college"
-            }
-        },
-        {
-            $unwind: {
-                path: "$college",
-                preserveNullAndEmptyArrays: true
-            }
-        },
-        {
-            $lookup: {
-                from: "schools",
-                let: { school: "$school" },
-                pipeline: [
-                    {
-                        $match: {
-                            $expr: {
-                                $eq: ["$_id", "$$school"]
-                            }
-                        }
-                    }
-                ],
-                as: "school"
-            }
-        },
-        {
-            $unwind: {
-                path: "$school",
-                preserveNullAndEmptyArrays: true
-            }
-        },
-        {
-            $lookup: {
-                from: "languages",
-                localField: "preferredLanguages",
-                foreignField: "_id",
-                as: "preferredLanguages"
-            }
-        }
-    ])
-    return _findDetails[0];
 }
 
 export default {

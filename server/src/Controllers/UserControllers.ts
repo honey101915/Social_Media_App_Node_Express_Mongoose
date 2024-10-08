@@ -3,7 +3,6 @@
 // Importing schemas using ES6 modules
 import userSchema from '../Models/userSchema';
 import mediaFileSchema from '../Models/mediaFileSchema';
-import interestSchema from '../Models/interestSchema';
 
 // Importing utility functions and constants
 import CommonMessages from '../Constants/en';
@@ -13,8 +12,6 @@ import UniversalFunction from '../lib/UniversalFunction';
 const updateProfile = async (req: any, res: any) => {
     try {
         var currentUser = req.user;
-
-
 
         var name = String(req.body?.name || "");
         var phoneNumber = String(req.body?.phoneNumber || "");
@@ -97,6 +94,14 @@ const logout = async (req: any, res: any) => {
     try {
         var currentUser = req.user
         const findUser = await userSchema.findById(currentUser._id)
+        console.log('====================================');
+        console.log(findUser, "logoutlogoutlogoutlogout");
+        console.log('====================================');
+
+
+        //     const decode = await verifyToken(token);
+        //   const user = await findUserByFilter({_id:decode.userId,status:true});
+
         if (findUser) {
             await userSchema.findByIdAndUpdate(currentUser?._id, {
                 accessToken: null
@@ -106,6 +111,7 @@ const logout = async (req: any, res: any) => {
             return UniversalFunction.SendResponse(res, 404, "User is already logged out")
         }
     } catch (error) {
+        console.log(error, "error logoutlogoutlogoutlogout", req);
         return UniversalFunction.SendServerError(res, error)
     }
 }

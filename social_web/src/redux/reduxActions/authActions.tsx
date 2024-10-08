@@ -1,4 +1,4 @@
-import { ALL_INTERESTS, ALL_LANGUAGES, LOG_OUT, LOGIN_API, SIGNUP_API } from "../../config/urls"
+import { ALL_INTERESTS, ALL_LANGUAGES, LOG_OUT, LOGIN_API, SEND_OTP, SIGNUP_API, VERIFY_OTP } from "../../config/urls"
 import { apiGet, apiPost } from "../../utils/apiService"
 import { setUserData } from "../../utils/LocalStorage";
 import { saveUserData } from "../reduxReducers/authReducers";
@@ -57,6 +57,30 @@ export const _hitLogoutApi = () => {
         apiGet(LOG_OUT).then((res) => {
             resolve(res)
             saveUserDataToRedux(null)
+        }).catch((error) => {
+            reject(error)
+        })
+    })
+}
+
+export const sendOtpApi = (payload: any) => {
+    return new Promise((resolve, reject) => {
+        apiPost(SEND_OTP, payload).then((res) => {
+            resolve(res)
+        }).catch((error) => {
+            reject(error)
+        })
+    })
+}
+
+export const verifyOtpApi = (payload: any) => {
+    return new Promise((resolve, reject) => {
+        apiPost(VERIFY_OTP, payload).then((res: any) => {
+            console.log('====================================');
+            console.log(res?.data, "verifyOtpApiverifyOtpApiverifyOtpApiverifyOtpApi");
+            console.log('====================================');
+            saveUserDataToRedux(res?.data)
+            resolve(res)
         }).catch((error) => {
             reject(error)
         })

@@ -57,11 +57,29 @@
     border-color: #0056b3;
 }
 
+.button-view {
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.back-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #da1717;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 16px;
+}
+
 .submit-button {
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
-    background-color: #007bff;
+    background-color: #00448d;
     border: none;
     border-radius: 5px;
     cursor: pointer;

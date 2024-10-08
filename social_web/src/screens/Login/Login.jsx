@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import { Loader } from "../../components";
-import { loginApi } from "../../redux/reduxActions/authActions";
+import { loginApi, sendOtpApi } from "../../redux/reduxActions/authActions";
 import { notifyError, notifySuccess } from "../../utils/ToastConfig";
 
 import "../../App.css";
@@ -20,7 +20,6 @@ const Login = () => {
     const [password, setPassword] = useState('123456');
     const [loginWithOtp, setLoginWithOtp] = useState(false)
 
-
     const _checkValidations = (e) => {
         e.preventDefault();
 
@@ -28,7 +27,8 @@ const Login = () => {
             notifyError("Enter valid email")
             return;
         } else if (loginWithOtp) {
-            navigate('/OtpScreen')
+            setLoading(true)
+            _sendOtp()
         } else if (!checkPasswordValidations(password, "Password must be of 6 characters.")) {
             return;
         } else {
@@ -55,7 +55,29 @@ const Login = () => {
         })
     }
 
+    const _sendOtp = (e) => {
+
+        // e.preventDefault();
+        let _apiData = {
+            email: String(email).trim(),
+        }
+        sendOtpApi(_apiData).then((res) => {
+            setLoading(false)
+            notifySuccess(ApiSuccessResponse(res))
+            _moveToOtp()
+        }).catch((error) => {
+            notifyError(ApiError(error))
+            setLoading(false)
+        })
+    }
+
     const _moveToProfile = () => navigate('/home');
+
+    const _moveToOtp = () => navigate('/otpScreen', {
+        state: {
+            email: email
+        }
+    })
 
     return (
         <div className="addUser">

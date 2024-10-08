@@ -1,0 +1,105 @@
+/* Main container for the text editor */
+.text-editor {
+    max-width: 800px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Toolbar styling */
+.toolbar {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #eaeaea;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Toolbar buttons */
+.toolbar button {
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+    margin-right: 10px;
+    outline: none;
+}
+
+/* Active button state */
+.toolbar button.active {
+    background-color: #d1e7dd;
+    /* Light green */
+    border-radius: 5px;
+}
+
+/* Toolbar dropdown */
+.toolbar select {
+    margin-left: auto;
+    /* Align the select to the right */
+    padding: 5px;
+}
+
+/* Editable area */
+.editable {
+    min-height: 200px;
+    padding: 10px;
+    outline: none;
+    /* Remove default outline */
+    transition: border 0.3s;
+}
+
+/* Editable area focus */
+.editable:focus {
+    border: 1px solid #007bff;
+    /* Blue border on focus */
+}
+
+/* Fullscreen styles */
+.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    background-color: white;
+    /* Fullscreen background */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header in fullscreen mode */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #007bff;
+    /* Blue background */
+    color: white;
+}
+
+/* Header title */
+.header h2 {
+    margin: 0;
+}
+
+/* Fullscreen exit button */
+.header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.header button:hover {
+    color: #d1e7dd;
+    /* Lighter shade on hover */
+}

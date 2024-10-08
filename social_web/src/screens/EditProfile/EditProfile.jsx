@@ -83,7 +83,6 @@ const EditProfile = () => {
                     <Card className="profile-card">
                         <Card.Body>
                             <Form onSubmit={handleSubmit}>
-
                                 <Form.Group as={Row} controlId="formName" className="mb-4">
                                     <Form.Label column sm={3}>Username:</Form.Label>
                                     <Col sm={9}>

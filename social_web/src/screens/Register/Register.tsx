@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import {
     checkDataEmptyOrNot,
     checkPasswordValidations,
-    isValidEmail,
+    isValidEmail
 } from "../../utils/validations";
 import { notifyError, notifySuccess } from "../../utils/ToastConfig";
 import { getAllInterestsApi, getAllLanguagesApi, signupApi } from "../../redux/reduxActions/authActions";

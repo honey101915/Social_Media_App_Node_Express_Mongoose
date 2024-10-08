@@ -5,6 +5,7 @@ import { BrowserRouter, createBrowserRouter, Navigate, Route, Routes } from 'rea
 import * as ScreenName from '../screens';
 import { HomeHeader } from '../components';
 
+import TryDemo from '../screens/TryDemo';
 
 const APP_ROUTES = [
     {
@@ -60,8 +61,12 @@ const APP_ROUTES = [
         element: <ScreenName.AddPost />,
     },
     {
-        path: "/OtpScreen",
+        path: "/otpScreen",
         element: <ScreenName.OtpScreen />,
+    },
+    {
+        path: "/tryDemo",
+        element: <TryDemo />
     }
 ];
 
