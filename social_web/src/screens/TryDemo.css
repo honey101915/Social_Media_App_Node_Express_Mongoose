@@ -1,25 +1,26 @@
 /* Main container for the text editor */
 .text-editor {
-    max-width: 800px;
+    width: 700px;
+    height: 300px;
     margin: 20px auto;
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #f9f9f9;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Toolbar styling */
 .toolbar {
     display: flex;
     align-items: center;
     padding: 10px;
     background-color: #eaeaea;
-    border-bottom: 1px solid #ddd;
     z-index: 1000;
+    position: relative;
 }
 
-/* Make toolbar fixed in fullscreen */
 .fullscreen-toolbar {
     position: fixed;
     top: 0;
@@ -31,11 +32,10 @@
     border-bottom: 1px solid #ddd;
 }
 
-/* Toolbar buttons */
 .toolbar button {
     background: none;
     border: none;
-    padding: 10px;
+    padding: 20px;
     cursor: pointer;
     font-size: 16px;
     transition: background 0.3s;
@@ -43,29 +43,29 @@
     outline: none;
 }
 
-/* Active button state */
+
 .toolbar button.active {
-    background-color: #d1e7dd;
-    /* Light green */
+    background-color: #a0baec;
+
     border-radius: 5px;
 }
 
-/* Toolbar dropdown */
+
 .toolbar select {
     margin-left: auto;
-    /* Align the select to the right */
     padding: 5px;
 }
 
 /* Editable area */
 .editable {
-    min-height: 200px;
+    flex-grow: 1;
     padding: 10px;
     outline: none;
     /* Remove default outline */
     transition: border 0.3s;
-    /* margin-top: 60px; */
-    /* Prevent content from hiding under the fixed toolbar */
+    overflow-y: auto;
+    background-color: #fff;
+    /* min-height: 200px; */
 }
 
 /* Editable area focus */
@@ -82,19 +82,30 @@
     right: 0;
     bottom: 0;
     z-index: 1000;
-    background-color: #f9f9f9;
-    /* Ensure background is consistent */
+    background-color: #fff;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
 }
 
-/* Editable area in fullscreen */
 .fullscreen .editable {
-    /* flex-grow: 1; */
     padding: 20px;
     overflow-y: auto;
+    flex-grow: 1;
     background-color: #fff;
     border: none;
-    margin-top: 60px;
-    /* Ensure content is below the toolbar */
+    width: 100vw;
+    height: 300px;
+}
+
+.isSpeaking {
+    margin: 50px;
+}
+
+.isSpeaking .fullscreen {
+    position: absolute;
+    z-index: 9999;
+    padding-top: 20vh;
 }

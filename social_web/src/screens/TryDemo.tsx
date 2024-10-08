@@ -25,9 +25,11 @@ const TryDemo = () => {
             recognitionRef.current.onresult = (event: any) => {
                 const transcript = event.results[0][0].transcript;
                 document.execCommand('insertText', false, transcript);
+                setIsSpeechRecognitionActive(false)
             };
         } else {
-            console.error('Speech recognition not supported in this browser.');
+            alert('Speech recognition not supported in this browser.');
+            setIsSpeechRecognitionActive(false)
         }
     }, []);
 
@@ -53,15 +55,15 @@ const TryDemo = () => {
     };
 
     const toggleFullscreen = () => {
-        if (!isFullscreen) {
-            if (editableRef.current) {
-                editableRef.current.requestFullscreen();
-            }
-        } else {
-            if (document.fullscreenElement) {
-                document.exitFullscreen();
-            }
-        }
+        // if (!isFullscreen) {
+        //     if (editableRef.current) {
+        //         editableRef.current.requestFullscreen();
+        //     }
+        // } else {
+        //     if (document.fullscreenElement) {
+        //         document.exitFullscreen();
+        //     }
+        // }
         setIsFullscreen(!isFullscreen);
     };
 
@@ -109,14 +111,11 @@ const TryDemo = () => {
                 <button onClick={toggleFullscreen} title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}>
                     <i className={`fa ${isFullscreen ? 'fa-compress' : 'fa-expand'}`}></i>
                 </button>
-
-                <select value={fontSize} onChange={handleFontSizeChange}>
-                    <option value="1">Small</option>
-                    <option value="3">Medium</option>
-                    <option value="5">Large</option>
-                    <option value="7">Extra Large</option>
-                </select>
             </div>
+
+            {isSpeechRecognitionActive && <p className="isSpeaking">
+                Listening ...
+            </p>}
 
             <div
                 ref={editableRef}
