@@ -16,7 +16,7 @@ const TryDemo = () => {
     const [isUnderline, setIsUnderline] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isSpeechRecognitionActive, setIsSpeechRecognitionActive] = useState(false);
-    const editableRef = useRef<any>(null);
+    const editableRef = useRef<HTMLDivElement>(null);
     const recognitionRef = useRef<any>(null);
 
     useEffect(() => {
@@ -31,12 +31,12 @@ const TryDemo = () => {
         }
     }, []);
 
-    const formatText = (command: any, value = null) => {
-        document.execCommand(command, false, value as any);
+    const formatText = (command: string, value?: any) => {
+        document.execCommand(command, false, value);
         updateButtonState();
     };
 
-    const handleFontSizeChange = (e: any) => {
+    const handleFontSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const size = e.target.value;
         setFontSize(size);
         formatText('fontSize', size);
@@ -54,9 +54,13 @@ const TryDemo = () => {
 
     const toggleFullscreen = () => {
         if (!isFullscreen) {
-            editableRef.current.requestFullscreen();
+            if (editableRef.current) {
+                editableRef.current.requestFullscreen();
+            }
         } else {
-            document.exitFullscreen();
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
         }
         setIsFullscreen(!isFullscreen);
     };
@@ -72,13 +76,7 @@ const TryDemo = () => {
 
     return (
         <div className={`text-editor ${isFullscreen ? 'fullscreen' : ''}`}>
-            {isFullscreen && (
-                <div className="header">
-                    <h2>Text Editor</h2>
-                    <button onClick={toggleFullscreen}>Exit Fullscreen</button>
-                </div>
-            )}
-            <div className="toolbar">
+            <div className={`toolbar ${isFullscreen ? 'fullscreen-toolbar' : ''}`}>
                 <button
                     onClick={() => formatText('bold')}
                     className={isBold ? 'active' : ''}
@@ -127,9 +125,7 @@ const TryDemo = () => {
                 suppressContentEditableWarning={true}
                 style={{ border: '1px solid #ccc', padding: '10px', minHeight: '200px' }}
                 onKeyUp={handleKeyUp}
-            >
-                Start typing here...
-            </div>
+            />
         </div>
     );
 };

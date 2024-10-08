@@ -16,6 +16,19 @@
     padding: 10px;
     background-color: #eaeaea;
     border-bottom: 1px solid #ddd;
+    z-index: 1000;
+}
+
+/* Make toolbar fixed in fullscreen */
+.fullscreen-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #eaeaea;
+    padding: 10px;
+    z-index: 9999;
+    border-bottom: 1px solid #ddd;
 }
 
 /* Toolbar buttons */
@@ -51,6 +64,8 @@
     outline: none;
     /* Remove default outline */
     transition: border 0.3s;
+    /* margin-top: 60px; */
+    /* Prevent content from hiding under the fixed toolbar */
 }
 
 /* Editable area focus */
@@ -67,39 +82,19 @@
     right: 0;
     bottom: 0;
     z-index: 1000;
-    background-color: white;
-    /* Fullscreen background */
+    background-color: #f9f9f9;
+    /* Ensure background is consistent */
     display: flex;
     flex-direction: column;
 }
 
-/* Header in fullscreen mode */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #007bff;
-    /* Blue background */
-    color: white;
-}
-
-/* Header title */
-.header h2 {
-    margin: 0;
-}
-
-/* Fullscreen exit button */
-.header button {
-    background: none;
+/* Editable area in fullscreen */
+.fullscreen .editable {
+    /* flex-grow: 1; */
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #fff;
     border: none;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-
-.header button:hover {
-    color: #d1e7dd;
-    /* Lighter shade on hover */
+    margin-top: 60px;
+    /* Ensure content is below the toolbar */
 }
