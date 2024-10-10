@@ -16,14 +16,15 @@ const TryDemo = () => {
     const [isUnderline, setIsUnderline] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isSpeechRecognitionActive, setIsSpeechRecognitionActive] = useState(false);
-    const editableRef = useRef<HTMLDivElement>(null);
+    const [text, setText] = useState(''); // State to handle textarea content
     const recognitionRef = useRef<any>(null);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
         if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
             recognitionRef.current = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
             recognitionRef.current.lang = 'en-US'; // Set the language to English (US)
-            recognitionRef.current.continuous = false; // Set continuous to false to stop after one result
+            recognitionRef.current.continuous = false; // Stop after one result
 
             recognitionRef.current.onstart = () => {
                 console.log('Speech recognition service started');
@@ -42,8 +43,8 @@ const TryDemo = () => {
 
             recognitionRef.current.onresult = (event: any) => {
                 const transcript = event.results[0][0].transcript;
-                document.execCommand('insertText', false, transcript);
                 console.log('Speech recognition result:', transcript);
+                insertTranscriptIntoTextarea(transcript);
             };
         } else {
             alert('Speech recognition not supported in this browser.');
@@ -51,19 +52,42 @@ const TryDemo = () => {
         }
     }, []);
 
-    const formatText = (command: string, value?: any) => {
-        document.execCommand(command, false, value);
-        updateButtonState();
+    // Insert transcript into textarea
+    const insertTranscriptIntoTextarea = (transcript: string) => {
+        if (textareaRef.current) {
+            const startPos = textareaRef.current.selectionStart;
+            const endPos = textareaRef.current.selectionEnd;
+            const textBefore = text.substring(0, startPos);
+            const textAfter = text.substring(endPos, text.length);
+            const newText = textBefore + transcript + textAfter;
+
+            setText(newText); // Update textarea content
+        }
     };
 
-    const updateButtonState = () => {
-        setIsBold(document.queryCommandState('bold'));
-        setIsItalic(document.queryCommandState('italic'));
-        setIsUnderline(document.queryCommandState('underline'));
-    };
+    const applyFormatting = (type: string) => {
+        if (textareaRef.current) {
+            const startPos = textareaRef.current.selectionStart;
+            const endPos = textareaRef.current.selectionEnd;
 
-    const handleKeyUp = () => {
-        updateButtonState();
+            let selectedText = text.substring(startPos, endPos);
+
+            if (type === 'bold') {
+                selectedText = `**${selectedText}**`;
+                setIsBold(!isBold);
+            } else if (type === 'italic') {
+                selectedText = `*${selectedText}*`;
+                setIsItalic(!isItalic);
+            } else if (type === 'underline') {
+                selectedText = `<u>${selectedText}</u>`;
+                setIsUnderline(!isUnderline);
+            }
+
+            const textBefore = text.substring(0, startPos);
+            const textAfter = text.substring(endPos);
+
+            setText(textBefore + selectedText + textAfter);
+        }
     };
 
     const toggleFullscreen = () => {
@@ -83,21 +107,21 @@ const TryDemo = () => {
         <div className={`text-editor ${isFullscreen ? 'fullscreen' : ''}`}>
             <div className={`toolbar ${isFullscreen ? 'fullscreen-toolbar' : ''}`}>
                 <button
-                    onClick={() => formatText('bold')}
+                    onClick={() => applyFormatting('bold')}
                     className={isBold ? 'active' : ''}
                     title="Bold"
                 >
                     <i className="fa fa-bold"></i>
                 </button>
                 <button
-                    onClick={() => formatText('italic')}
+                    onClick={() => applyFormatting('italic')}
                     className={isItalic ? 'active' : ''}
                     title="Italic"
                 >
                     <i className="fa fa-italic"></i>
                 </button>
                 <button
-                    onClick={() => formatText('underline')}
+                    onClick={() => applyFormatting('underline')}
                     className={isUnderline ? 'active' : ''}
                     title="Underline"
                 >
@@ -116,17 +140,14 @@ const TryDemo = () => {
                 </button>
             </div>
 
-            {isSpeechRecognitionActive && <p className="isSpeaking">
-                Listening...
-            </p>}
+            {isSpeechRecognitionActive && <p className="isSpeaking">Listening...</p>}
 
-            <div
-                ref={editableRef}
-                className="editable"
-                contentEditable
-                suppressContentEditableWarning={true}
-                style={{ border: '1px solid #ccc', padding: '10px', minHeight: '200px' }}
-                onKeyUp={handleKeyUp}
+            <textarea
+                ref={textareaRef}
+                className="editable-textarea"
+                style={{ width: '100%', padding: '10px', minHeight: '200px', border: '1px solid #ccc' }}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
             />
         </div>
     );
