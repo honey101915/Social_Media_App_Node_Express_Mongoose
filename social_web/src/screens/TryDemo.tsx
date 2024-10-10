@@ -22,26 +22,38 @@ const TryDemo = () => {
     useEffect(() => {
         if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
             recognitionRef.current = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognitionRef.current.lang = 'en-US'; // Set the language to English (US)
+            recognitionRef.current.continuous = false; // Set continuous to false to stop after one result
+
+            recognitionRef.current.onstart = () => {
+                console.log('Speech recognition service started');
+            };
+
+            recognitionRef.current.onend = () => {
+                console.log('Speech recognition service ended');
+                setIsSpeechRecognitionActive(false);
+            };
+
+            recognitionRef.current.onerror = (event: any) => {
+                console.error('Speech recognition error:', event.error);
+                alert('Error occurred during speech recognition: ' + event.error);
+                setIsSpeechRecognitionActive(false);
+            };
+
             recognitionRef.current.onresult = (event: any) => {
                 const transcript = event.results[0][0].transcript;
                 document.execCommand('insertText', false, transcript);
-                setIsSpeechRecognitionActive(false)
+                console.log('Speech recognition result:', transcript);
             };
         } else {
             alert('Speech recognition not supported in this browser.');
-            setIsSpeechRecognitionActive(false)
+            setIsSpeechRecognitionActive(false);
         }
     }, []);
 
     const formatText = (command: string, value?: any) => {
         document.execCommand(command, false, value);
         updateButtonState();
-    };
-
-    const handleFontSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const size = e.target.value;
-        setFontSize(size);
-        formatText('fontSize', size);
     };
 
     const updateButtonState = () => {
@@ -55,15 +67,6 @@ const TryDemo = () => {
     };
 
     const toggleFullscreen = () => {
-        // if (!isFullscreen) {
-        //     if (editableRef.current) {
-        //         editableRef.current.requestFullscreen();
-        //     }
-        // } else {
-        //     if (document.fullscreenElement) {
-        //         document.exitFullscreen();
-        //     }
-        // }
         setIsFullscreen(!isFullscreen);
     };
 
@@ -114,7 +117,7 @@ const TryDemo = () => {
             </div>
 
             {isSpeechRecognitionActive && <p className="isSpeaking">
-                Listening ...
+                Listening...
             </p>}
 
             <div
