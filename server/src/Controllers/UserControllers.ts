@@ -98,7 +98,6 @@ const logout = async (req: any, res: any) => {
         console.log(findUser, "logoutlogoutlogoutlogout");
         console.log('====================================');
 
-
         //     const decode = await verifyToken(token);
         //   const user = await findUserByFilter({_id:decode.userId,status:true});
 

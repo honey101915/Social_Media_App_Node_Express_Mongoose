@@ -14,6 +14,7 @@ interface IUser extends Document {
     userType: string;
     name: string;
     gender: string | null;
+    currentLanguage: string | null;
     email: string;
     profileImage: string;
     phoneNumber: number;
@@ -51,6 +52,10 @@ const userSchema: Schema<IUser> = new Schema({
     gender: {
         type: String,
         default: null
+    },
+    currentLanguage: {
+        type: String,
+        default: "en"
     },
     email: {
         type: String,

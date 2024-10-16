@@ -105,7 +105,7 @@ const registerUser = async (req: any, res: any) => {
 }
 
 const loginUser = async (req: any, res: any) => {
-    console.log(req.body, "XXXX");
+    console.log(req.headers, "LOGIN USER HEADER");
 
     try {
         var email = String(req.body?.email || "");
@@ -241,8 +241,12 @@ const loginUser = async (req: any, res: any) => {
                     foreignField: "_id",
                     as: "preferredLanguages"
                 }
-            },
-
+            }
+            , {
+                $set: {
+                    currentLanguage: req?.headers?.currentlanguage
+                }
+            }
         ])
 
         console.log(findUser, "findUserfindUserfindUserfindUser");
@@ -251,8 +255,6 @@ const loginUser = async (req: any, res: any) => {
             return UniversalFunction.SendResponse(res, 404, CommonMessages.userIsNotRegisteredWithUs)
         }
 
-
-
         if (findUser && (await bcrypt.compare(password, findUser?.password))) {
             const accessToken = generateToken(findUser)
             const getData = JSON.parse(JSON.stringify(findUser))
@@ -260,7 +262,11 @@ const loginUser = async (req: any, res: any) => {
             getData.accessToken = accessToken
 
             await userSchema.findByIdAndUpdate(getData?._id, {
-                accessToken: accessToken
+                accessToken: accessToken,
+                currentLanguage: req?.headers?.currentlanguage || ""
+            }, {
+                new: true,
+                strict: false
             })
             return UniversalFunction.SendResponse(res, 200, CommonMessages.success, getData)
         } else {
