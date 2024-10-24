@@ -1,10 +1,12 @@
 /* EditProfile.css */
 
 .edit-profile-page {
-  min-height: 100vh; /* Ensures the container takes up at least the full viewport height */
+  min-height: 100vh;
+  /* Ensures the container takes up at least the full viewport height */
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Centers content vertically */
+  justify-content: center;
+  /* Centers content vertically */
   padding: 20px;
 }
 
@@ -15,9 +17,27 @@
 }
 
 .mb-4 {
-  margin-bottom: 1.5rem; /* Adds margin bottom for spacing between fields */
+  margin-bottom: 1.5rem;
+  /* Adds margin bottom for spacing between fields */
 }
 
 .mt-3 {
-  margin-top: 1rem; /* Adds margin top for spacing between button and fields */
+  margin-top: 1rem;
+  /* Adds margin top for spacing between button and fields */
+}
+
+.box-container {
+  background-color: #ebf8fa;
+  border-radius: 8px;
+  padding: 10px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.interests-fieldset .checkbox-container,
+.address-fieldset .checkbox-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }

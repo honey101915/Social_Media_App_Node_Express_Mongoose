@@ -13,29 +13,23 @@ const updateProfile = async (req: any, res: any) => {
     try {
         var currentUser = req.user;
 
+        // var userName = String(req.body?.userName || "").toLocaleLowerCase();
         var name = String(req.body?.name || "");
+        // var email = String(req.body?.email || "").toLocaleLowerCase();
+        // var password = String(req.body?.password || "");
         var phoneNumber = String(req.body?.phoneNumber || "");
-        var dob = String(req.body?.dob || "");
+        var dob = String(req.body?.phoneNumber || "");
         var age = String(req.body?.age || "");
         var gender = String(req.body?.gender || "");
         var profession = String(req.body?.profession || "");
         var about = String(req.body?.about || "");
-
-        const _newUser = {
-            name,
-            phoneNumber,
-            dob,
-            age,
-            gender,
-            profession,
-            about
-        }
+        var myInterests = req.body?.interests || [];
+        var myPrefLang = req.body?.preferredLanguages || [];
+        var college = req.body?.college || "";
+        var school = req.body?.school || "";
 
         if (name.trim() === '') {
             UniversalFunction.SendResponse(res, 404, "Name is required")
-            return;
-        } else if (phoneNumber.trim() === '' || phoneNumber.trim().length < 8) {
-            UniversalFunction.SendResponse(res, 404, "PhoneNumber is required of minimum 8 digits")
             return;
         } else if (dob.trim() === '') {
             UniversalFunction.SendResponse(res, 404, "Date of birth is required")
@@ -53,9 +47,56 @@ const updateProfile = async (req: any, res: any) => {
             UniversalFunction.SendResponse(res, 404, "About is required")
             return;
         }
+        else if (phoneNumber.trim() === '') {
+            UniversalFunction.SendResponse(res, 404, "Phone number is required")
+            return;
+        }
 
+        const _newUserData: any = {
+            name,
+            dob,
+            age,
+            phoneNumber,
+            gender,
+            profession,
+            about,
+            interests: myInterests,
+            preferredLanguages: myPrefLang,
+        }
 
-        var updatedUser = { ..._newUser }
+        if (req.body?.college) {
+            _newUserData.college = college
+        }
+        if (req.body?.school) {
+            _newUserData.school = school
+        }
+
+        // if (name.trim() === '') {
+        //     UniversalFunction.SendResponse(res, 404, "Name is required")
+        //     return;
+        // }
+        // //  else if (phoneNumber.trim() === '' || phoneNumber.trim().length < 8) {
+        // //     UniversalFunction.SendResponse(res, 404, "PhoneNumber is required of minimum 8 digits")
+        // //     return;
+        // // } 
+        // else if (dob.trim() === '') {
+        //     UniversalFunction.SendResponse(res, 404, "Date of birth is required")
+        //     return;
+        // } else if (age.trim() === '') {
+        //     UniversalFunction.SendResponse(res, 404, "Age is required")
+        //     return;
+        // } else if (gender.trim() === '') {
+        //     UniversalFunction.SendResponse(res, 404, "Gender is required")
+        //     return;
+        // } else if (profession.trim() === '') {
+        //     UniversalFunction.SendResponse(res, 404, "Profession is required")
+        //     return;
+        // } else if (about.trim() === '') {
+        //     UniversalFunction.SendResponse(res, 404, "About is required")
+        //     return;
+        // }
+
+        var updatedUser = { ..._newUserData }
         await userSchema.findByIdAndUpdate(
             currentUser._id,
             updatedUser,

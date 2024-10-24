@@ -1,7 +1,7 @@
 import { ALL_INTERESTS, ALL_LANGUAGES, LOG_OUT, LOGIN_API, SEND_OTP, SIGNUP_API, VERIFY_OTP } from "../../config/urls"
 import { apiGet, apiPost } from "../../utils/apiService"
 import { setUserData } from "../../utils/LocalStorage";
-import { saveUserData } from "../reduxReducers/authReducers";
+import { saveInterests, saveLanguages, saveUserData } from "../reduxReducers/authReducers";
 import store from "../reduxStore";
 
 const { dispatch } = store;
@@ -9,6 +9,13 @@ const { dispatch } = store;
 export const saveUserDataToRedux = (_data: any) => {
     setUserData(_data)
     dispatch(saveUserData(_data))
+}
+
+export const saveInterestsToRedux = (_data: any) => {
+    dispatch(saveInterests(_data))
+}
+export const saveLanguagesToRedux = (_data: any) => {
+    dispatch(saveLanguages(_data))
 }
 
 export const loginApi = (payload: any) => {
@@ -34,7 +41,8 @@ export const signupApi = (payload: any) => {
 
 export const getAllInterestsApi = () => {
     return new Promise((resolve, reject) => {
-        apiGet(ALL_INTERESTS).then((res) => {
+        apiGet(ALL_INTERESTS).then((res: any) => {
+            saveInterestsToRedux(res?.data)
             resolve(res)
         }).catch((error) => {
             reject(error)
@@ -44,7 +52,8 @@ export const getAllInterestsApi = () => {
 
 export const getAllLanguagesApi = () => {
     return new Promise((resolve, reject) => {
-        apiGet(ALL_LANGUAGES).then((res) => {
+        apiGet(ALL_LANGUAGES).then((res: any) => {
+            saveLanguagesToRedux(res?.data)
             resolve(res)
         }).catch((error) => {
             reject(error)

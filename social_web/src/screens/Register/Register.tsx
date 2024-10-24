@@ -34,15 +34,14 @@ const Register: React.FC = () => {
     const [gender, setGender] = useState<string>("");
     const [profession, setProfession] = useState<string>("");
     const [interests, setInterests] = useState<string[]>([]);
-    const [preferredLanguages, setPreferredLanguagess] = useState<string[]>([]);
+    const [preferredLanguages, setPreferredLanguages] = useState<string[]>([]);
     const [about, setAbout] = useState<string>("");
 
     const [selectedSchool, setSelectedSchool] = useState<any>(null)
     const [selectedCollege, setSelectedCollege] = useState<any>(null)
 
     useEffect(() => {
-        _getAllInterests()
-        _getAllLanguages()
+        Promise.all([_getAllInterests(), _getAllLanguages()])
     }, [])
 
     const _getAllInterests = () => {
@@ -116,6 +115,9 @@ const Register: React.FC = () => {
         } else if (interests.length === 0) {
             notifyError("At least one interest must be selected.");
             return;
+        } else if (!selectedSchool?._id) {
+            notifyError("School is required");
+            return;
         } else {
             _registerUser();
         }
@@ -136,11 +138,12 @@ const Register: React.FC = () => {
             interests,
             preferredLanguages,
             about: about.trim(),
+            school: selectedSchool?._id,
+            college: selectedCollege?._id,
         };
 
         console.log(_apiData, "_apiData_apiData_apiData");
 
-        // return;
         signupApi(_apiData)
             .then((res) => {
                 setLoading(false);
@@ -162,7 +165,7 @@ const Register: React.FC = () => {
 
     const handlePrefLangChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, checked } = e.target;
-        setPreferredLanguagess((prevPrefLang) =>
+        setPreferredLanguages((prevPrefLang) =>
             checked ? [...prevPrefLang, value] : prevPrefLang.filter((lang) => lang !== value)
         );
     };

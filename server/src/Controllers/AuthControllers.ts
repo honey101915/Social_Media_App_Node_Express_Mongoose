@@ -31,6 +31,9 @@ const registerUser = async (req: any, res: any) => {
         var myInterests = req.body?.interests || [];
         var myPrefLang = req.body?.preferredLanguages || [];
 
+        var college = req.body?.college || "";
+        var school = req.body?.school || "";
+
         if (userName.trim() === '') {
             UniversalFunction.SendResponse(res, 404, "Username is required")
             return;
@@ -75,6 +78,12 @@ const registerUser = async (req: any, res: any) => {
             isVerified: true,
             interests: myInterests,
             preferredLanguages: myPrefLang
+        }
+        if (req.body?.college) {
+            newUserData.college = college
+        }
+        if (req.body?.school) {
+            newUserData.school = school
         }
         console.log(newUserData, "newUserDatanewUserData", req.body);
 
