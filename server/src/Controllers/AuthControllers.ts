@@ -462,7 +462,7 @@ const verifyOtp = async (req: any, res: any) => {
                     },
                     {
                         $lookup: {
-                            from: "college",
+                            from: "colleges",
                             let: { college: "$college" },
                             pipeline: [
                                 {
