@@ -1,68 +1,96 @@
-import { useState } from 'react';
-import { Header } from '../../components';
-import "./Messages.css"
-export const Messages = (props) => {
+// src/App.js
+
+import React, { useState } from 'react';
+import './Messages.css';
+
+const Messages = () => {
     const [messages, setMessages] = useState([
-        { text: 'Hello! How can I assist you today?', sender: 'bot' },
+        { id: 1, user: 'Alice', text: 'Hey, how are you?' },
+        { id: 2, user: 'Bob', text: 'I\'m good! How about you?' },
+        { id: 3, user: 'Alice', text: 'I\'m doing well, thanks!' },
     ]);
 
-    const [input, setInput] = useState('');
+    const [currentUser, setCurrentUser] = useState('Alice');
 
-    const sendMessage = () => {
-        if (input.trim()) {
-            setMessages((prevMessages) => [
-                ...prevMessages,
-                { text: input, sender: 'user' },
-                { text: 'I am here to help you!', sender: 'bot' }, // Example bot response
-            ]);
+    // People list data
+    const people = [
+        { id: 1, name: 'Alice' },
+        { id: 2, name: 'Bob' },
+        { id: 3, name: 'Charlie' },
+    ];
 
-            setInput('');
-        }
+    const handleSendMessage = (text) => {
+        if (text.trim() === '') return;
+        setMessages([...messages, { id: messages.length + 1, user: currentUser, text }]);
     };
 
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter' && input.trim()) {
-            sendMessage();
-        }
-    };
     return (
-        <div>
-            <Header title={"Messages"} />
-            <div className="chat-screen">
-                <div className="chat-window">
-                    <div className="message-list">
-                        {messages.map((message, index) => (
-                            <div
-                                key={index}
-                                className={`message ${message.sender === 'user' ? 'user-message' : 'bot-message'}`}
-                            >
-                                {message.text}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="input-container">
-                    <input
-                        type="text"
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        onKeyDown={handleKeyPress}
-                        placeholder="Type a message..."
-                        className="chat-input"
-                    />
-                    <button
-                        onClick={sendMessage}
-                        className="send-button"
-                        disabled={!input.trim()}
-                    >
-                        Send
-                    </button>
-                </div>
-            </div>
+        <div className="app-container">
+            <PeopleList people={people} currentUser={currentUser} setCurrentUser={setCurrentUser} />
+            <ChatScreen messages={messages} currentUser={currentUser} handleSendMessage={handleSendMessage} />
         </div>
-    )
-}
+    );
+};
 
+const PeopleList = ({ people, currentUser, setCurrentUser }) => {
+    return (
+        <div className="people-list">
+            <h3>People</h3>
+            <ul>
+                {people.map((person) => (
+                    <li
+                        key={person.id}
+                        className={currentUser === person.name ? 'active' : ''}
+                        onClick={() => setCurrentUser(person.name)}
+                    >
+                        {person.name}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+};
 
-export default Messages
+const ChatScreen = ({ messages, currentUser, handleSendMessage }) => {
+    const [messageText, setMessageText] = useState('');
+
+    const handleInputChange = (e) => {
+        setMessageText(e.target.value);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        handleSendMessage(messageText);
+        setMessageText('');
+    };
+
+    return (
+        <div className="chat-screen">
+            <div className="chat-header">
+                <h2>Chat with {currentUser}</h2>
+            </div>
+            <div className="chat-messages">
+                {messages
+                    .map((message) => (
+                        <div
+                            key={message.id}
+                            className={`message ${message.user === currentUser ? 'sent' : 'received'}`}
+                        >
+                            <p>{message.text}</p>
+                        </div>
+                    ))}
+            </div>
+            <form onSubmit={handleSubmit} className="chat-input">
+                <input
+                    type="text"
+                    value={messageText}
+                    onChange={handleInputChange}
+                    placeholder="Type a message..."
+                />
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    );
+};
+
+export default Messages;
