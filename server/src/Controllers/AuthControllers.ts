@@ -323,8 +323,10 @@ const getAllColleges = async (req: any, res: any) => {
             currentPage: page,
             totalRecords,
             limit,
-            totalPages: parseInt(totalRecords / limit as any, 10)
+            // totalPages: parseInt(totalRecords / limit as any, 10)
+            totalPages: Math.ceil(totalRecords / limit)
         }
+        console.log(totalRecords, "totalRecordstotalRecords", response);
         return UniversalFunction.SendResponse(res, 200, CommonMessages.success, response)
     } catch (error) {
         return UniversalFunction.SendServerError(res, error)
@@ -349,12 +351,15 @@ const getAllSchools = async (req: any, res: any) => {
             .skip((pageNumber - 1) * limitNumber)
             .sort({ _id: -1 })
         const totalRecords: any = await schoolSchema.countDocuments(filter)
+
+
         let response: any = {
             data: allSchools,
             currentPage: page,
             totalRecords,
             limit,
-            totalPages: parseInt(totalRecords / limit as any, 10)
+            // totalPages: parseInt(totalRecords / limit as any, 10)
+            totalPages: Math.ceil(totalRecords / limit)
         }
         return UniversalFunction.SendResponse(res, 200, CommonMessages.success, response)
     } catch (error) {
