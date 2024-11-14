@@ -33,7 +33,7 @@ const UserComp: React.FC<PersonProps> = ({
                     <h1 className='name-text'>{personData?.name}</h1>
                     <p className='name-text'>{"@" + personData?.userName}</p>
                     <div className="action-buttons">
-                        <button className="send-request-btn" onClick={onclickSendRequest}>Send Request</button>
+                        <button className="send-request-btn" onClick={onclickSendRequest}>Follow</button>
                         <button className="message-btn" onClick={onclickSendMessage}>Message</button>
                     </div>
                 </div>

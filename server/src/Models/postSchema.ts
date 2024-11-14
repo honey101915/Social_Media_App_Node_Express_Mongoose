@@ -4,24 +4,23 @@ import mongoose, { Schema, Document, Types } from 'mongoose';
 interface ILocation {
     latitude: number;
     longitude: number;
-    city?: string; // Optional field
+    city?: string;
 }
 
 interface IPost extends Document {
-    userId?: Types.ObjectId; // Optional field
+    userId?: Types.ObjectId;
     type: string;
     fileUrl: string;
     caption: string;
-    allComments?: Array<any>; // You can specify a more detailed type if needed
+    allComments?: Array<any>;
     isDeleted: boolean;
     isBlocked: boolean;
-    totalLikes: Array<Types.ObjectId>; // Assuming likes are stored as ObjectIds of users
+    totalLikes: Array<Types.ObjectId>;
     location: {
         type: ILocation;
     };
 }
 
-// Define the schema using TypeScript types
 const postSchema: Schema<IPost> = new Schema(
     {
         userId: {
@@ -34,17 +33,16 @@ const postSchema: Schema<IPost> = new Schema(
         },
         fileUrl: {
             type: String,
-            required: true, // Fixed 'require' to 'required'
+            required: true,
             default: 'https://i0.wp.com/flickside.com/wp-content/uploads/2022/11/highest-paid-actors.jpg?fit=1200%2C900&ssl=1',
         },
         caption: {
             type: String,
-            required: true, // Fixed 'require' to 'required'
+            required: true,
         },
         allComments: {
             type: Array,
             default: [],
-            // ref: "comments" // Uncomment if needed
         },
         isDeleted: {
             type: Boolean,
@@ -55,7 +53,7 @@ const postSchema: Schema<IPost> = new Schema(
             default: false,
         },
         totalLikes: {
-            type: [Schema.Types.ObjectId], // Array of ObjectIds referencing users
+            type: [Schema.Types.ObjectId],
             ref: "users",
             default: [],
         },
@@ -63,15 +61,15 @@ const postSchema: Schema<IPost> = new Schema(
             type: {
                 latitude: {
                     type: Number,
-                    default: 40.7128, // Default latitude
+                    default: 40.7128,
                 },
                 longitude: {
                     type: Number,
-                    default: -74.0060, // Default longitude
+                    default: -74.0060,
                 },
                 city: {
                     type: String,
-                    default: "New York, USA", // Default city name
+                    default: "New York, USA",
                 },
             },
             default: {
@@ -82,10 +80,9 @@ const postSchema: Schema<IPost> = new Schema(
         },
     },
     {
-        timestamps: true, // Adds createdAt and updatedAt fields automatically
-        versionKey: false, // Disables the __v version key
+        timestamps: true,
+        versionKey: false,
     }
 );
 
-// Export the model using ES6 syntax
 export default mongoose.model<IPost>('posts', postSchema);

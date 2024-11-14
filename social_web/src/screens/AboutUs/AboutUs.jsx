@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Header } from '../components'
+import { Header } from '../../components'
 
 export const AboutUs = (props) => {
     return (

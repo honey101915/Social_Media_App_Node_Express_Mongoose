@@ -67,7 +67,7 @@ const ChatScreen = ({ messages, currentUser, handleSendMessage }) => {
     return (
         <div className="chat-screen">
             <div className="chat-header">
-                <h2>Chat with {currentUser}</h2>
+                <h2>{currentUser}</h2>
             </div>
             <div className="chat-messages">
                 {messages
