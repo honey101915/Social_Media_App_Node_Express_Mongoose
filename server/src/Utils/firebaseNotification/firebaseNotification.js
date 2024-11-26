@@ -23,12 +23,12 @@ const sendPushNotification = async (registrationToken, messageData) => {
     }
 };
 
-const registrationToken = 'cIyy3Na_UEvIhkky2tCrNx:APA91bGovBvbRt7oIWjPIkpb0eLdwNQxnypG_OV1rbGKCDuY6AX0v3vIzIUB6OZLLnO0FyooWocNDXgPWR1wqa_M1h82acP50zIgKS7LBod0oAStsFzTYNmAL-YX946Ar72gKWTYjxMg';
+const registrationToken = 'eWtV_aYUz0yOrjvFiua01n:APA91bFNTExQ8xwGELogmndWBW9WeN7a4SizgfZmd7yB_V0RLdmq2KB4NSa-A9JvRcIsvSS0j6J-LvF_osS3gTbDbTJ24Q-RgUOriQeYX2b8l-OguM5-yMk';
 
 
 const messageData = {
-    title: 'This is title',
-    body: 'This is a body notification.',
+    title: 'sdfgsdfgsdfg',
+    body: 'sdfgsdfgdsfgsdfg',
     data: { data: 'value1', data: 'value2' },
 };
 
